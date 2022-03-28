@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/HomeFrag">
+    <fragment
+        android:id="@+id/HomeFrag"
+        android:name="com.example.handiwalk.HomeFrag"
+        android:label="Home" />
+    <fragment
+        android:id="@+id/MapFrag"
+        android:name="com.example.handiwalk.MapFrag"
+        android:label="Map" />
+
+</navigation>
