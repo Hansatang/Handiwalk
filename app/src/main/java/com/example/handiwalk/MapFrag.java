@@ -19,9 +19,10 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.map_lay, container, false);
-        mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager()
-                .findFragmentById(R.id.MapFrag);
+        mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         return view;
     }
 
