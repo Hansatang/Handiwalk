@@ -44,7 +44,7 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
         LatLng sydney = new LatLng(55.863838, 9.86122);
         mMap.addMarker(new MarkerOptions()
                 .position(sydney)
-                .title("Marker in Sydney"));
+                .title("VIA University Horsens"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
