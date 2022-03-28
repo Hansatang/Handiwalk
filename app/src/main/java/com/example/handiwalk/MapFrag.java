@@ -41,10 +41,13 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(55.863838, 9.86122);
+        LatLng VIA = new LatLng(55.863838, 9.86122);
         mMap.addMarker(new MarkerOptions()
-                .position(sydney)
+                .position(VIA)
                 .title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(VIA));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(VIA,15));
+        // Zoom in, animating the camera.
+
     }
 }
