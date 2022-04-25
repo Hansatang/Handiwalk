@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "582526924766",
+    "project_id": "sep4-android-dbc2d",
+    "storage_bucket": "sep4-android-dbc2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582526924766:android:20f08e0798516322fecf4f",
+        "android_client_info": {
+          "package_name": "com.example.sep4android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582526924766-30dn7ilbnsfg44qnerema6dln054to5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIVOMMUtCauBi7LTSi7_hNjP_aFIh5luc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582526924766-30dn7ilbnsfg44qnerema6dln054to5k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
