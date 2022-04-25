@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "21542169543",
+    "project_id": "handiwalk",
+    "storage_bucket": "handiwalk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21542169543:android:3f306eea237c5f80d287e2",
+        "android_client_info": {
+          "package_name": "com.example.handiwalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21542169543-v21vf2o78qrs6d1lij2v57d4i1eal6t1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCK-dccFvPPb20y4hI3TjdEQp3z1EFGU9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21542169543-v21vf2o78qrs6d1lij2v57d4i1eal6t1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
