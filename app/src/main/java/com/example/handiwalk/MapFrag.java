@@ -15,8 +15,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.GeoPoint;
 
-public class MapFrag extends Fragment implements OnMapReadyCallback {
+public class MapFrag extends Fragment implements OnMapReadyCallback,ListenerChooseMap {
     SupportMapFragment mapFragment;
     private GoogleMap mMap;
 
@@ -51,5 +52,10 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AarsSkov, 15));
         // Zoom in, animating the camera.
 
+    }
+
+    @Override
+    public void setCoordinates(GeoPoint coordinates) {
+        
     }
 }
