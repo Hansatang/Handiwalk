@@ -3,14 +3,17 @@ package com.example.handiwalk;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 public class LocationLiveData extends LiveData<LocationObject> {
     private final ValueEventListener listener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
-            Message message = snapshot.getValue(Message.class);
-            setValue(message);
+            LocationObject locationObject = snapshot.getValue(LocationObject.class);
+            setValue(locationObject);
         }
 
         @Override
@@ -19,7 +22,7 @@ public class LocationLiveData extends LiveData<LocationObject> {
     };
     DatabaseReference databaseReference;
 
-    public MessageLiveData(DatabaseReference ref) {
+    public LocationLiveData(DatabaseReference ref) {
         databaseReference = ref;
     }
 

@@ -2,36 +2,23 @@ package com.example.handiwalk;
 
 import android.app.Application;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.google.firebase.auth.FirebaseUser;
 
-public class ChooseViewModel {
+import java.util.List;
+
+public class ChooseViewModel extends AndroidViewModel {
     private final LocationRepository locationRepository;
-    publicChooseViewModel(Application app){
+
+    public ChooseViewModel(Application app) {
         super(app);
 
-        locationRepository = MessageRepository.getInstance();
+        locationRepository = LocationRepository.getInstance(app);
     }
 
-    public void init() {
-        String userId = userRepository.getCurrentUser().getValue().getUid();
-        locationRepository.init(userId);
-    }
-
-    public LiveData<FirebaseUser> getCurrentUser(){
-        return userRepository.getCurrentUser();
-    }
-
-    public void saveMessage(String message) {
-        locationRepository.saveMessage(message);
-    }
-
-    public LiveData<Message> getMessage() {
-        return locationRepository.getMessage();
-    }
-
-    public void signOut() {
-        userRepository.signOut();
+    public LiveData<List<LocationObject>> init() {
+        return locationRepository.getLocationLiveData();
     }
 }

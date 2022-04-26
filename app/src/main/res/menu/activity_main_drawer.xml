@@ -12,5 +12,9 @@
             android:id="@+id/MapFrag"
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Map"/>
+        <item
+            android:id="@+id/ChooseFrag"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="Choose"/>
     </group>
 </menu>
