@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,12 +19,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.GeoPoint;
 
-public class MapFrag extends Fragment implements OnMapReadyCallback,ListenerChooseMap {
+import java.util.List;
+
+public class MapFrag extends Fragment implements OnMapReadyCallback {
     SupportMapFragment mapFragment;
+    ChooseViewModel viewModel;
     private GoogleMap mMap;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.map_lay, container, false);
+
+        viewModel = new ViewModelProvider(this).get(ChooseViewModel.class);
+
+
+        viewModel.init().observe(getViewLifecycleOwner(), listObjects -> updateMap(listObjects));
 
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
@@ -54,8 +64,9 @@ public class MapFrag extends Fragment implements OnMapReadyCallback,ListenerChoo
 
     }
 
-    @Override
-    public void setCoordinates(GeoPoint coordinates) {
-        
+    private void updateMap(List<LocationObject> listObjects){
+
     }
+
+
 }

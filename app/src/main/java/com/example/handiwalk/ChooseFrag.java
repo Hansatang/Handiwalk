@@ -22,7 +22,7 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
     ChooseViewModel viewModel;
     View view;
 
-    ListenerChooseMap fragmentInterfacer;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -46,13 +46,7 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
     @Override
     public void onListItemClick(LocationObject clickedItemIndex) {
         Navigation.findNavController(view).navigate(R.id.MapFrag);
-        fragmentInterfacer.setCoordinates(clickedItemIndex.getCoordinates());
         Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        fragmentInterfacer = (ListenerChooseMap) context;
-    }
 }
