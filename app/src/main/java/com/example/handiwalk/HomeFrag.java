@@ -33,7 +33,7 @@ public class HomeFrag extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(TAG, "Name: " + document.getData());
+                        System.out.println(document.getData().get("Coordinates"));
                     } else {
                         Log.d(TAG, "No such document");
                     }
