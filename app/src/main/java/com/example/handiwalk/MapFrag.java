@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapFrag extends Fragment implements OnMapReadyCallback {
     SupportMapFragment mapFragment;
     private GoogleMap mMap;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.map_lay, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -31,7 +32,7 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
      * we just add a marker near Sydney, Australia.
-     *
+     * <p>
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -46,7 +47,15 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
                 .position(VIA)
                 .title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(VIA));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(VIA,15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(VIA, 15));
+        // Zoom in, animating the camera.
+
+        LatLng AarsSkov = new LatLng(56.821938234395894, 9.501755476978627);
+        mMap.addMarker(new MarkerOptions()
+                .position(AarsSkov)
+                .title("The forrest in Aars"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(AarsSkov));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AarsSkov, 15));
         // Zoom in, animating the camera.
 
     }
