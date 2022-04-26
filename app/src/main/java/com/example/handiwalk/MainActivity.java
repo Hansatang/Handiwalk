@@ -35,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         mAuth = FirebaseAuth.getInstance();
+
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+
     }
 
     private void findViews() {
@@ -61,9 +67,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
+        if (item.getItemId()== findViewById(R.id.LogOutButton).getId()){
+            System.out.println("Options");
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }

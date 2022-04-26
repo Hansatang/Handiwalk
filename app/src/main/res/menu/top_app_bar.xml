@@ -4,7 +4,7 @@
 
     <item
         android:title="Item"
-        android:id="@+id/NavigationBut"
+        android:id="@+id/LogOutButton"
         app:showAsAction="always" />
 
 
