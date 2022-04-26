@@ -23,6 +23,10 @@ public class ChooseFrag extends Fragment {
 
         View view = inflater.inflate(R.layout.choose_lay, container, false);
 
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        viewModel.init();
+
+
         mTestList = view.findViewById(R.id.rv);
         mTestList.hasFixedSize();
         mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
