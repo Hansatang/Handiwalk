@@ -52,9 +52,9 @@ public class LocationRepository {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d(TAG, "Name: " + document.getData());
-                        List list = new ArrayList();
-                        System.out.println((String) document.getData().get("Name"));
-                        LocationObject locationObject = new LocationObject((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
+                        List<LocationObject> list = new ArrayList();
+                        System.out.println("NOme "+(String) document.getData().get("Desciption"));
+                        LocationObject locationObject = new LocationObject((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Desciption"));
 
                         list.add(locationObject);
                         locationLiveData.setValue(list);

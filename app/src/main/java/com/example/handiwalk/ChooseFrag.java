@@ -11,12 +11,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.maps.SupportMapFragment;
 
-public class ChooseFrag extends Fragment {
+
+public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnListItemClickListener {
     RecyclerView mTestList;
 
-    // ListAdapter mListAdapter;
+    LocationObjectAdapter mListAdapter;
     ChooseViewModel viewModel;
 
 
@@ -29,22 +29,18 @@ public class ChooseFrag extends Fragment {
         mTestList = view.findViewById(R.id.rv);
         mTestList.hasFixedSize();
         mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
-        viewModel.init().observe(getViewLifecycleOwner(), message -> {
-                    System.out.println(message.get(0).getDescription());
-                }
-        );
-        //  viewModel = new ViewModelProvider(this).get(ListObjectModel.class);
-//        viewModel = new ViewModelProvider(requireActivity()).get(ListObjectModel.class);
-//        mListAdapter = new ListAdapter(this);
-//        viewModel.getListObjects().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
-//        mTestList.setAdapter(mListAdapter);
+
+
+        mListAdapter = new LocationObjectAdapter(this);
+        viewModel.init().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
+        mTestList.setAdapter(mListAdapter);
+
 
         return view;
     }
 
-
-//    @Override
-//    public void onListItemClick(ListObject clickedItemIndex) {
-//        Toast.makeText(getContext(), "Letter Clicked: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
-//    }
+    @Override
+    public void onListItemClick(LocationObject clickedItemIndex) {
+        Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
+    }
 }
