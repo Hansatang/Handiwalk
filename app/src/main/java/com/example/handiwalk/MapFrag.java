@@ -45,27 +45,21 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng VIA = new LatLng(55.863838, 9.86122);
-        mMap.addMarker(new MarkerOptions()
-                .position(VIA)
-                .title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(VIA));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(VIA, 15));
-        // Zoom in, animating the camera.
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(55.859070694447674, 9.849398618961366),6));
 
-        LatLng AarsSkov = new LatLng(56.821938234395894, 9.501755476978627);
-        mMap.addMarker(new MarkerOptions()
-                .position(AarsSkov)
-                .title("The forrest in Aars"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(AarsSkov));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AarsSkov, 15));
-        // Zoom in, animating the camera.
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(AarsSkov));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AarsSkov, 15));
 
     }
 
     private void updateMap(List<LocationObject> listObjects){
 
+        for (LocationObject temp:listObjects) {
+
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(temp.getCoordinates().getLatitude(),temp.getCoordinates().getLongitude())).title(temp.getName()));
+        }
     }
 
 
