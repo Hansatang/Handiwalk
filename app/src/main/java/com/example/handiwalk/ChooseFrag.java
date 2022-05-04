@@ -84,4 +84,6 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
     }
 
 
+
+
 }
