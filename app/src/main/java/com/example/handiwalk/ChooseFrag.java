@@ -2,10 +2,13 @@ package com.example.handiwalk;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -58,5 +61,27 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
         //  Navigation.findNavController(view).navigate(R.id.MapFrag);
         Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onRateClick(LocationObject clickedItemIndex) {
+
+        System.out.println("fafsa");
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.review_window, null);
+
+        boolean focusable = true;
+        final PopupWindow popupWindow = new PopupWindow(popupView, popupView.getWidth(), popupView.getHeight(), focusable);
+        popupWindow.showAtLocation(view, Gravity.CENTER,0,0);
+
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                popupWindow.dismiss();
+                return false;
+            }
+        });
+
+    }
+
 
 }

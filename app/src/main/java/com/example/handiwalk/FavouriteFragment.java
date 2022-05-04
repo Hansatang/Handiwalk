@@ -57,4 +57,9 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
         //  Navigation.findNavController(view).navigate(R.id.MapFrag);
         Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onRateClick(LocationObject clickedItemIndex) {
+
+    }
 }
