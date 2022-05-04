@@ -21,4 +21,12 @@ public class ChooseViewModel extends AndroidViewModel {
     public LiveData<List<LocationObject>> init() {
         return locationRepository.getLocationLiveData();
     }
+
+    public void setSnap(LocationObject clickedItemIndex) {
+        locationRepository.setSnap(clickedItemIndex);
+    }
+
+    public LiveData<LocationObject> snapInit() {
+        return locationRepository.getSnapLiveData();
+    }
 }

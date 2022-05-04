@@ -27,11 +27,13 @@ public class LocationRepository {
 
     private static LocationRepository instance;
     private final MutableLiveData<List<LocationObject>> locationLiveData;
+    private final MutableLiveData<LocationObject> snapLiveData;
 
     private LocationRepository(Application application) {
         locationLiveData = new MutableLiveData<>();
+        snapLiveData = new MutableLiveData<>();
         //getLocations();
-         getLocationsCoordinates();
+        getLocationsCoordinates();
     }
 
     public static synchronized LocationRepository getInstance(Application application) {
@@ -74,27 +76,29 @@ public class LocationRepository {
     }
 
 
-    public List<LocationObject> getLocationsCoordinates() {
+    public void getLocationsCoordinates() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         List<LocationObject> temp = new ArrayList<>();
-        db.collection("locations")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                LocationObject locationObject = new LocationObject((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
-                                temp.add(locationObject);
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                            locationLiveData.setValue(temp);
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-        return temp;
+        db.collection("locations").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    LocationObject locationObject = new LocationObject((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
+                    temp.add(locationObject);
+                    Log.d(TAG, document.getId() + " => " + document.getData());
+                }
+                System.out.println("Amount: " + temp.size());
+                locationLiveData.setValue(temp);
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.getException());
+            }
+        });
     }
 
+    public void setSnap(LocationObject clickedItemIndex) {
+        snapLiveData.setValue(clickedItemIndex);
+    }
+
+    public MutableLiveData<LocationObject> getSnapLiveData() {
+        return snapLiveData;
+    }
 }

@@ -3,6 +3,7 @@ package com.example.handiwalk;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -69,5 +70,6 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
         public void onClick(View view) {
             clickListener.onListItemClick(objects.get(getBindingAdapterPosition()));
         }
+
     }
 }

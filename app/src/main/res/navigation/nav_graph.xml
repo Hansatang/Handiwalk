@@ -10,7 +10,8 @@
     <fragment
         android:id="@+id/MapFrag"
         android:name="com.example.handiwalk.MapFrag"
-        android:label="Map" />
+        android:label="Map"
+        />
     <fragment
         android:id="@+id/ChooseFrag"
         android:name="com.example.handiwalk.ChooseFrag"
