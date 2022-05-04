@@ -20,20 +20,18 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
     RecyclerView mTestList;
     NavigationView navigationView;
     LocationObjectAdapter mListAdapter;
-    ChooseViewModel viewModel;
+    FavouriteLocationViewModel viewModel;
     View view;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.choose_lay, container, false);
-
-        viewModel = new ViewModelProvider(this).get(ChooseViewModel.class);
+        viewModel = new ViewModelProvider(this).get( FavouriteLocationViewModel.class);
 
         mTestList = view.findViewById(R.id.rv);
         mTestList.hasFixedSize();
         mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         mListAdapter = new LocationObjectAdapter(this);
 
@@ -49,11 +47,9 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
         NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
         MainActivity main = (MainActivity) getActivity();
         navigationView = main.findViewById(R.id.nav_view);
-        viewModel.setSnap(clickedItemIndex);
         NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1),
                 navController
         );
-
 
         //  Navigation.findNavController(view).navigate(R.id.MapFrag);
         Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();

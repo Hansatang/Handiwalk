@@ -1,5 +1,8 @@
 package com.example.handiwalk;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.firebase.firestore.GeoPoint;
 
 public class LocationObject {

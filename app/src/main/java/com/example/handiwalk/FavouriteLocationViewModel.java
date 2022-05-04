@@ -13,20 +13,13 @@ public class FavouriteLocationViewModel extends AndroidViewModel {
 
     public FavouriteLocationViewModel(Application app) {
         super(app);
-
-        localRepository = LocationRepository.getInstance(app);
+        localRepository = LocalRepository.getInstance(app);
     }
 
     public LiveData<List<LocationObject>> init() {
         return localRepository.getLocationLiveData();
     }
 
-    public void setSnap(LocationObject clickedItemIndex) {
-        localRepository.setSnap(clickedItemIndex);
-    }
 
-    public LiveData<LocationObject> snapInit() {
-        return localRepository.getSnapLiveData();
-    }
 
 }

@@ -19,23 +19,23 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class LocalRepository {
-
-    private static LocationRepository instance;
+    private static  LocalRepository instance;
     private final MutableLiveData<List<LocationObject>> locationLiveData;
     private final MutableLiveData<LocationObject> snapLiveData;
 
     private LocalRepository(Application application) {
         locationLiveData = new MutableLiveData<>();
         snapLiveData = new MutableLiveData<>();
-        //getLocations();
         getLocationsCoordinates();
     }
 
-    public static synchronized LocationRepository getInstance(Application application) {
+    public static synchronized  LocalRepository getInstance(Application application) {
         if (instance == null)
-            instance = new LocationRepository(application);
+            instance = new  LocalRepository(application);
         return instance;
     }
 
@@ -45,9 +45,7 @@ public class LocalRepository {
     }
 
     public void getLocations() {
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         DocumentReference docRef = db.collection("locations").document("1");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -98,5 +96,4 @@ public class LocalRepository {
     public MutableLiveData<LocationObject> getSnapLiveData() {
         return snapLiveData;
     }
-
 }
