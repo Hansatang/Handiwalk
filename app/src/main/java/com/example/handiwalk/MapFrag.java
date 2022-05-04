@@ -90,7 +90,7 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
 
                     // show the popup window
                     // which view you pass in doesn't matter, it is only used for the window tolken
-                    popupWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.LEFT, 10, 75);
+                    popupWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.LEFT, 10, 200);
 
                     // dismiss the popup window when touched
                     popupView.setOnTouchListener(new View.OnTouchListener() {

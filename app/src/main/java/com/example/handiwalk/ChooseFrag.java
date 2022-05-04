@@ -98,4 +98,6 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
+
+
 }

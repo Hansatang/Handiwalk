@@ -36,6 +36,7 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
 
 
         mListAdapter = new LocationObjectAdapter(this);
+
         viewModel.init().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
         mTestList.setAdapter(mListAdapter);
 

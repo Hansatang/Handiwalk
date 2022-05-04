@@ -16,5 +16,9 @@
             android:id="@+id/ChooseFrag"
             android:icon="@drawable/ic_launcher_foreground"
             android:title="Choose"/>
+        <item
+            android:id="@+id/FavouriteFragment"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="Favourite"/>
     </group>
 </menu>
