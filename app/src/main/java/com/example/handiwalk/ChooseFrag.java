@@ -60,6 +60,11 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
 
         //  Navigation.findNavController(view).navigate(R.id.MapFrag);
         Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
+
     }
+
+
+
+
 
 }
