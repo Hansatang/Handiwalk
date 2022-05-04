@@ -53,11 +53,8 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
         MainActivity main = (MainActivity) getActivity();
         navigationView = main.findViewById(R.id.nav_view);
         viewModel.setSnap(clickedItemIndex);
-        NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1),
-                navController
+        NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1), navController
         );
-
-
         //  Navigation.findNavController(view).navigate(R.id.MapFrag);
         Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
 
