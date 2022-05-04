@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,6 +51,31 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(55.859070694447674, 9.849398618961366), 6));
         viewModel.init().observe(getViewLifecycleOwner(), listObjects -> updateMap(listObjects));
         viewModel.snapInit().observe(getViewLifecycleOwner(), object -> SnapToSelected(object));
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                System.out.println("aleooooo");
+                // Retrieve the data from the marker.
+                //LocationObject clickCount = (LocationObject) marker.getTag();
+
+                // Check if a click count was set, then display the click count.
+
+                LocationObject clickCount = (LocationObject) marker.getTag();
+
+                // Check if a click count was set, then display the click count.
+                if (clickCount != null) {
+                    Toast.makeText(getContext(),
+                            marker.getTitle() +
+                                    " has been clicked " + clickCount.getName() + " times.",
+                            Toast.LENGTH_SHORT).show();
+                    System.out.println("hahahaha");
+                   return true;
+                }
+                    return false;
+
+            }
+        });
+
     }
 
     private void updateMap(List<LocationObject> listObjects) {
@@ -58,7 +86,9 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
                     .position(new LatLng(temp.getCoordinates().getLatitude(), temp.getCoordinates().getLongitude())).title(temp.getName()));
             marker.setTag(temp);
         }
+
     }
+
 
     private void SnapToSelected(LocationObject object) {
 
