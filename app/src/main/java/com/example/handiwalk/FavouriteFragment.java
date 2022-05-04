@@ -1,14 +1,11 @@
 package com.example.handiwalk;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -19,8 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 
-
-public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnListItemClickListener {
+public class FavouriteFragment extends Fragment implements LocationObjectAdapter.OnListItemClickListener{
     RecyclerView mTestList;
     NavigationView navigationView;
     LocationObjectAdapter mListAdapter;
@@ -53,10 +49,12 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
         MainActivity main = (MainActivity) getActivity();
         navigationView = main.findViewById(R.id.nav_view);
         viewModel.setSnap(clickedItemIndex);
-        NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1), navController
+        NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1),
+                navController
         );
+
+
         //  Navigation.findNavController(view).navigate(R.id.MapFrag);
         Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
     }
-
 }
