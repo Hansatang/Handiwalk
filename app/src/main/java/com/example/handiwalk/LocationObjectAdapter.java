@@ -46,6 +46,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
 
     public interface OnListItemClickListener {
         void onListItemClick(LocationObject clickedItemIndex);
+        void onRateClick(LocationObject clickedItemIndex);
     }
 
 
