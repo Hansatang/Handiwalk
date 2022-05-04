@@ -3,6 +3,7 @@ package com.example.handiwalk;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -57,13 +58,15 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
         TextView name;
         TextView character;
         TextView quote;
+        Button button;
 
         ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.locationName);
             character = itemView.findViewById(R.id.geoPoint);
             quote = itemView.findViewById(R.id.desciption);
-            itemView.setOnClickListener(this);
+            button=itemView.findViewById(R.id.showOnMap);
+            button.setOnClickListener(this);
         }
 
         @Override
