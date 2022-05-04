@@ -16,4 +16,8 @@
         android:id="@+id/ChooseFrag"
         android:name="com.example.handiwalk.ChooseFrag"
         android:label="Choose" />
+    <fragment
+        android:id="@+id/FavouriteFragment"
+        android:name="com.example.handiwalk.FavouriteFragment"
+        android:label="Favourite" />
 </navigation>
