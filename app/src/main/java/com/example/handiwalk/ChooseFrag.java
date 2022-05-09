@@ -1,7 +1,5 @@
 package com.example.handiwalk;
-
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
@@ -42,21 +40,16 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.choose_lay, container, false);
-
         viewModel = new ViewModelProvider(this).get(ChooseViewModel.class);
 
         mTestList = view.findViewById(R.id.rv);
         mTestList.hasFixedSize();
         mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         mListAdapter = new LocationObjectAdapter(this);
         viewModel.init().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
         mTestList.setAdapter(mListAdapter);
-
-
         return view;
     }
 
@@ -64,7 +57,11 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
     @Override
     public void onFavClick(LocationObject clickedItemIndex)
     {
-
+        System.out.println("Fav clicked");
+        Toast toast = Toast.makeText(getContext(),
+                "Favourite spot added to your list",
+                Toast.LENGTH_SHORT);
+        toast.show();
     }
     @Override
     public void onListItemClick(LocationObject clickedItemIndex) {
@@ -104,7 +101,4 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
     float convertDpToPx(float dp, Context context){
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
-
-
-
 }
