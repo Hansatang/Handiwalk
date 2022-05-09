@@ -9,24 +9,17 @@ import java.util.List;
 
 public class FavouriteLocationViewModel extends AndroidViewModel {
 
-    private final LocalRepository localRepository;
+    private final FavouriteRepository favouriteRepository;
 
     public FavouriteLocationViewModel(Application app) {
         super(app);
-
-        localRepository = LocationRepository.getInstance(app);
+        favouriteRepository = FavouriteRepository.getInstance(app);
     }
 
     public LiveData<List<LocationObject>> init() {
-        return localRepository.getLocationLiveData();
+        return favouriteRepository.getLocationLiveData();
     }
 
-    public void setSnap(LocationObject clickedItemIndex) {
-        localRepository.setSnap(clickedItemIndex);
-    }
 
-    public LiveData<LocationObject> snapInit() {
-        return localRepository.getSnapLiveData();
-    }
 
 }
