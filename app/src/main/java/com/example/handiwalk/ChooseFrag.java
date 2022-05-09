@@ -94,12 +94,9 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
                     focusable);
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-            popupView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    popupWindow.dismiss();
-                    return true;
-                }
+            popupView.setOnTouchListener((view, motionEvent) -> {
+                popupWindow.dismiss();
+                return true;
             });
         }
     }
