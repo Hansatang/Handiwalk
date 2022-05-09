@@ -1,6 +1,11 @@
 package com.example.handiwalk;
 
 import android.app.Application;
+import android.content.Context;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -11,6 +16,7 @@ import java.util.List;
 
 public class ChooseViewModel extends AndroidViewModel {
     private final LocationRepository locationRepository;
+
 
     public ChooseViewModel(Application app) {
         super(app);
@@ -29,4 +35,8 @@ public class ChooseViewModel extends AndroidViewModel {
     public LiveData<LocationObject> snapInit() {
         return locationRepository.getSnapLiveData();
     }
+
+
+
 }
+

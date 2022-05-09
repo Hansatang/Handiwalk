@@ -44,21 +44,17 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.map_lay, container, false);
-
         viewModel = new ViewModelProvider(this).get(ChooseViewModel.class);
-
 
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         return view;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(55.859070694447674, 9.849398618961366), 6));
         viewModel.init().observe(getViewLifecycleOwner(), listObjects -> updateMap(listObjects));
@@ -102,7 +98,6 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
                     });
 
 
-
                 }
                     return false;
 
@@ -114,7 +109,6 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
     private void updateMap(List<LocationObject> listObjects) {
 
         for (LocationObject temp : listObjects) {
-
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(temp.getCoordinates().getLatitude(), temp.getCoordinates().getLongitude())).title(temp.getName()));
             marker.setTag(temp);
@@ -124,7 +118,6 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
 
 
     private void SnapToSelected(LocationObject object) {
-
         if (object != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(object.getCoordinates().getLatitude(), object.getCoordinates().getLongitude()), 15));
             viewModel.setSnap(null);

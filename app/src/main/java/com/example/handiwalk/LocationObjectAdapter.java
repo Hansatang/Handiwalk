@@ -48,6 +48,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
     public interface OnListItemClickListener {
         void onListItemClick(LocationObject clickedItemIndex);
         void onRateClick(LocationObject clickedItemIndex);
+        void onFavClick(LocationObject clickedItemIndex);
     }
 
 
@@ -61,6 +62,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
         TextView quote;
         Button button;
         Button rateButton;
+        Button b;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -68,7 +70,9 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
             character = itemView.findViewById(R.id.geoPoint);
             quote = itemView.findViewById(R.id.desciption);
             button=itemView.findViewById(R.id.showOnMap);
+            b = itemView.findViewById(R.id.favButton);
             rateButton = itemView.findViewById(R.id.rateButton);
+            b.setOnClickListener(this);
             button.setOnClickListener(this);
             rateButton.setOnClickListener(this);
         }
@@ -78,9 +82,13 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
             System.out.println(view.getId());
             System.out.println(rateButton.getId());
             System.out.println(button.getId());
+            System.out.println(b.getId());
             if(view.getId() == rateButton.getId()) {
                 clickListener.onRateClick(objects.get(getBindingAdapterPosition()));
-            } else {
+            } else if (view.getId() == b.getId()){
+                clickListener.onFavClick(objects.get(getBindingAdapterPosition()));
+            } else
+            {
                 clickListener.onListItemClick(objects.get(getBindingAdapterPosition()));
             }
         }

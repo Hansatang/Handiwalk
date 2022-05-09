@@ -4,6 +4,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +37,8 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
     LocationObjectAdapter mListAdapter;
     ChooseViewModel viewModel;
     View view;
+    Context context;
+    MediaPlayer mp;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +60,12 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
         return view;
     }
 
+
+    @Override
+    public void onFavClick(LocationObject clickedItemIndex)
+    {
+
+    }
     @Override
     public void onListItemClick(LocationObject clickedItemIndex) {
         NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);

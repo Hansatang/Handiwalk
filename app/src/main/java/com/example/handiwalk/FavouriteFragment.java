@@ -59,4 +59,9 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
     public void onRateClick(LocationObject clickedItemIndex) {
 
     }
+
+    @Override
+    public void onFavClick(LocationObject clickedItemIndex) {
+
+    }
 }
