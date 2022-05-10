@@ -8,8 +8,5 @@ import android.view.View;
 import android.widget.Button;
 
 public class ChooseActivity extends Activity {
-    //Context context = this;
-    //MediaPlayer mp;
-
 
 }

@@ -35,8 +35,7 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
     LocationObjectAdapter mListAdapter;
     ChooseViewModel viewModel;
     View view;
-    Context context;
-    MediaPlayer mp;
+
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
