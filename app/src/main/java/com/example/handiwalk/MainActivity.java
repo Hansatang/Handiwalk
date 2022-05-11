@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -72,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId()== findViewById(R.id.LogOutButton).getId()){
             System.out.println("Options");
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+            AuthUI.getInstance().signOut(this).addOnCompleteListener(task -> {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+            });
         }
 
         return super.onOptionsItemSelected(item);

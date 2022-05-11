@@ -38,7 +38,6 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.choose_lay, container, false);
 
         viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
@@ -47,12 +46,9 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
         mTestList.hasFixedSize();
         mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         mListAdapter = new LocationObjectAdapter(this);
         viewModel.init().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
         mTestList.setAdapter(mListAdapter);
-
-
         return view;
     }
 
@@ -94,7 +90,5 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
     float convertDpToPx(float dp, Context context){
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
-
-
 
 }
