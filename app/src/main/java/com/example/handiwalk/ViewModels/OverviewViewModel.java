@@ -7,16 +7,19 @@ import androidx.lifecycle.LiveData;
 
 import com.example.handiwalk.Models.LocationModel;
 import com.example.handiwalk.Repositories.LocationRepository;
+import com.example.handiwalk.Repositories.RatingRepository;
 
 import java.util.List;
 
 public class OverviewViewModel extends AndroidViewModel {
     private final LocationRepository locationRepository;
+    private final RatingRepository ratingRepository;
 
     public OverviewViewModel(Application app) {
         super(app);
 
         locationRepository = LocationRepository.getInstance(app);
+        ratingRepository = RatingRepository.getInstance(app);
     }
 
     public LiveData<List<LocationModel>> init() {
@@ -30,4 +33,10 @@ public class OverviewViewModel extends AndroidViewModel {
     public LiveData<LocationModel> snapInit() {
         return locationRepository.getSnapLiveData();
     }
+
+    public void setReview(LocationModel reviewedLocation, float ratingValue){
+        ratingRepository.setRating(reviewedLocation, ratingValue);
+    }
+
+
 }
