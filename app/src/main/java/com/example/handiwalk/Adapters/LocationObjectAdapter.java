@@ -45,7 +45,10 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
   public void onBindViewHolder(LocationObjectAdapter.ViewHolder viewHolder, int position) {
     viewHolder.locationName.setText(objects.get(position).getName());
     double rate = objects.get(position).getAverageRating();
-    if (rate <= 1.0) {
+    if (rate == 0){
+      viewHolder.ratingScore.setText("No one rated yet.");
+    }
+    else if (rate <= 1.0) {
       viewHolder.ratingScore.setText("Rating: " + rate + " Poor");
     } else if (rate <= 2.0) {
       viewHolder.ratingScore.setText("Rating: " + rate + " Fair");
