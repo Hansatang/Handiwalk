@@ -61,7 +61,7 @@ public class LocationRepository {
                         Log.d(TAG, "Name: " + document.getData());
                         List<LocationModel> list = new ArrayList();
                         System.out.println("NOme " + (String) document.getData().get("Desciption"));
-                        LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
+                        LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"), (long) document.getData().get("Id"));
 
                         list.add(locationObject);
                         locationLiveData.setValue(list);
@@ -82,7 +82,7 @@ public class LocationRepository {
         db.collection("locations").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
+                    LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"), (long) document.getData().get("Id"));
                     temp.add(locationObject);
                     Log.d(TAG, document.getId() + " => " + document.getData());
                 }

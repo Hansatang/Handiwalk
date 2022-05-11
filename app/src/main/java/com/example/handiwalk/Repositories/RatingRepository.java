@@ -54,7 +54,7 @@ public class RatingRepository {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser userLoggedIn = FirebaseAuth.getInstance().getCurrentUser();
         ReviewModel reviewModel = new ReviewModel(userLoggedIn.getUid(), rating);
-        DocumentReference reference = db.collection("locations").document(locationModel.getName());
+        DocumentReference reference = db.collection("locations").document(locationModel.getId()+"");
         reference.update("Reviews", FieldValue.arrayUnion(reviewModel.getReview())).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
