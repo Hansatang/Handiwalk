@@ -56,8 +56,6 @@ public class LocationRepository {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     DocumentReference docRef = db.collection("locations").document("1");
-//        CollectionReference col = db.collection("locations");
-//        col.whereArrayContains("userId", "Test").get();
     docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
       @Override
       public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -91,7 +89,6 @@ public class LocationRepository {
     db.collection("locations").get().addOnCompleteListener(task -> {
       if (task.isSuccessful()) {
         for (QueryDocumentSnapshot document : task.getResult()) {
-          System.out.println(document.getData().get("Coordinates") + "");
           LocationModel locationObject;
           locationObject = new LocationModel((String) document.getData().get("Name"),
               (GeoPoint) document.getData().get("Coordinates"),
@@ -100,9 +97,8 @@ public class LocationRepository {
               (String) document.getData().get("AverageRating"));
 
           temp.add(locationObject);
-          Log.d(TAG, document.getId() + " => " + document.getData());
+        //  Log.d(TAG, document.getId() + " => " + document.getData());
         }
-        System.out.println("Amount: " + temp.size());
         locationLiveData.setValue(temp);
       } else {
         Log.d(TAG, "Error getting documents: ", task.getException());
@@ -124,13 +120,20 @@ public class LocationRepository {
         DocumentSnapshot document = task.getResult();
         ArrayList<Map<String, Object>> maps = (ArrayList<Map<String, Object>>) document.getData().get("Reviews");
         ArrayList<String> reviews = new ArrayList<>();
+        boolean addNew = true;
         for (Map map : maps) {
           if (map.containsKey(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            addNew = false;
             map.replace(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(rating));
             map.values().forEach(tab -> reviews.add((String) tab));
           } else {
             map.values().forEach(tab -> reviews.add((String) tab));
           }
+        }
+        if (addNew) {
+          System.out.println("Add new");
+          maps.add(docData);
+          reviews.add(String.valueOf(rating));
         }
         String average = calculateAverage(reviews);
         reference.update("Reviews", maps).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -152,11 +155,11 @@ public class LocationRepository {
                 });
           }
         }).addOnFailureListener(new OnFailureListener() {
-              @Override
-              public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error updating document", e);
-              }
-            });
+          @Override
+          public void onFailure(@NonNull Exception e) {
+            Log.w(TAG, "Error updating document", e);
+          }
+        });
         Log.d(TAG, document.getId() + " => " + document.getData());
       } else {
         Log.d(TAG, "Error getting documents: ", task.getException());
