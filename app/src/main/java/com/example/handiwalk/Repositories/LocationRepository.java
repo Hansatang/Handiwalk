@@ -119,31 +119,76 @@ public class LocationRepository {
     Map<String, Object> docData = new HashMap<>();
     docData.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(rating));
 
-    reference.update("Reviews", FieldValue.arrayUnion(docData)).addOnCompleteListener(arrayUnionTask -> {
-      reference.get().addOnCompleteListener(getDocumentTask -> {
-        DocumentSnapshot document = getDocumentTask.getResult();
+    reference.get().addOnCompleteListener(task -> {
+      if (task.isSuccessful()) {
+        DocumentSnapshot document = task.getResult();
         ArrayList<Map<String, Object>> maps = (ArrayList<Map<String, Object>>) document.getData().get("Reviews");
         ArrayList<String> reviews = new ArrayList<>();
         for (Map map : maps) {
-          map.values().forEach(tab -> reviews.add((String) tab));
+          if (map.containsKey(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            map.replace(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(rating));
+            map.values().forEach(tab -> reviews.add((String) tab));
+          } else {
+            map.values().forEach(tab -> reviews.add((String) tab));
+          }
         }
         String average = calculateAverage(reviews);
-        System.out.println("Average : " + average);
-        reference.update("AverageRating", average).addOnSuccessListener(new OnSuccessListener<Void>() {
+        reference.update("Reviews", maps).addOnSuccessListener(new OnSuccessListener<Void>() {
           @Override
           public void onSuccess(Void aVoid) {
             Log.d(TAG, "DocumentSnapshot successfully updated!");
-            getLocationsCoordinates();
+            reference.update("AverageRating", average).addOnSuccessListener(new OnSuccessListener<Void>() {
+              @Override
+              public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                getLocationsCoordinates();
+              }
+            })
+                .addOnFailureListener(new OnFailureListener() {
+                  @Override
+                  public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error updating document", e);
+                  }
+                });
           }
-        })
-            .addOnFailureListener(new OnFailureListener() {
+        }).addOnFailureListener(new OnFailureListener() {
               @Override
               public void onFailure(@NonNull Exception e) {
                 Log.w(TAG, "Error updating document", e);
               }
             });
-      });
+        Log.d(TAG, document.getId() + " => " + document.getData());
+      } else {
+        Log.d(TAG, "Error getting documents: ", task.getException());
+      }
     });
+
+
+//    reference.update("Reviews", FieldValue.arrayUnion(docData)).addOnCompleteListener(arrayUnionTask -> {
+//      reference.get().addOnCompleteListener(getDocumentTask -> {
+//        DocumentSnapshot document = getDocumentTask.getResult();
+//        ArrayList<Map<String, Object>> maps = (ArrayList<Map<String, Object>>) document.getData().get("Reviews");
+//        ArrayList<String> reviews = new ArrayList<>();
+//        for (Map map : maps) {
+//          map.values().forEach(tab -> reviews.add((String) tab));
+//        }
+//        String average = calculateAverage(reviews);
+//        System.out.println("Average : " + average);
+//        reference.update("AverageRating", average).addOnSuccessListener(new OnSuccessListener<Void>() {
+//          @Override
+//          public void onSuccess(Void aVoid) {
+//            Log.d(TAG, "DocumentSnapshot successfully updated!");
+//            getLocationsCoordinates();
+//          }
+//        })
+//            .addOnFailureListener(new OnFailureListener() {
+//              @Override
+//              public void onFailure(@NonNull Exception e) {
+//                Log.w(TAG, "Error updating document", e);
+//              }
+//            });
+//      });
+//    });
   }
 
 
@@ -157,7 +202,9 @@ public class LocationRepository {
       double rate = Double.parseDouble(mark);
       sum += rate;
     }
-    return String.valueOf(sum / marks.size());
+    double result = Math.round(((sum / marks.size()) * 100.0)) / 100.0;
+
+    return String.valueOf(result);
 
   }
 
