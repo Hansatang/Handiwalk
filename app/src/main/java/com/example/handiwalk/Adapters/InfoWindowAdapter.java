@@ -33,7 +33,7 @@ public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     TextView rate = view.findViewById(R.id.ratingInfo);
     name.setText(infoWindowContent.getName());
     description.setText(infoWindowContent.getDescription());
-    rate.setText(infoWindowContent.getAverageRating() + "");
+    rate.setText(infoWindowContent.getAverageRating());
 
     return view;
   }
