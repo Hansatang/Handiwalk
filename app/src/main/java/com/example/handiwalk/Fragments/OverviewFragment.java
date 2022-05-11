@@ -3,6 +3,8 @@ package com.example.handiwalk.Fragments;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -44,7 +46,7 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
 
         view = inflater.inflate(R.layout.choose_lay, container, false);
 
-        viewModel = new ViewModelProvider(this).get(ChooseViewModel.class);
+        viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
 
         mTestList = view.findViewById(R.id.rv);
         mTestList.hasFixedSize();
@@ -60,7 +62,7 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
     }
 
     @Override
-    public void onListItemClick(LocationObject clickedItemIndex) {
+    public void onListItemClick(LocationModel clickedItemIndex) {
         NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
         MainActivity main = (MainActivity) getActivity();
         navigationView = main.findViewById(R.id.nav_view);
