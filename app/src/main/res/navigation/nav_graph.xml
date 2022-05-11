@@ -5,19 +5,19 @@
     app:startDestination="@id/HomeFrag">
     <fragment
         android:id="@+id/HomeFrag"
-        android:name="com.example.handiwalk.HomeFrag"
+        android:name="com.example.handiwalk.Fragments.HomeFragment"
         android:label="Home" />
     <fragment
         android:id="@+id/MapFrag"
-        android:name="com.example.handiwalk.MapFrag"
+        android:name="com.example.handiwalk.Fragments.MapFragment"
         android:label="Map"
         />
     <fragment
         android:id="@+id/ChooseFrag"
-        android:name="com.example.handiwalk.ChooseFrag"
+        android:name="com.example.handiwalk.Fragments.OverviewFragment"
         android:label="Choose" />
     <fragment
         android:id="@+id/FavouriteFragment"
-        android:name="com.example.handiwalk.FavouriteFragment"
+        android:name="com.example.handiwalk.Fragments.FavouriteFragment"
         android:label="Favourite" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.handiwalk;
+package com.example.handiwalk.Fragments;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -26,10 +26,15 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.handiwalk.ChooseViewModel;
+import com.example.handiwalk.LocationObject;
+import com.example.handiwalk.LocationObjectAdapter;
+import com.example.handiwalk.MainActivity;
+import com.example.handiwalk.R;
 import com.google.android.material.navigation.NavigationView;
 
 
-public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnListItemClickListener {
+public class OverviewFragment extends Fragment implements LocationObjectAdapter.OnListItemClickListener {
     RecyclerView mTestList;
     NavigationView navigationView;
     LocationObjectAdapter mListAdapter;
