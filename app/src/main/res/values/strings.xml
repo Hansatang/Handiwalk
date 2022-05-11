@@ -6,4 +6,10 @@
     <string name="favourite">Favourite</string>
     <string name="log_out">Log Out</string>
     <string name="NoRating">No one rated yet.</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
 </resources>

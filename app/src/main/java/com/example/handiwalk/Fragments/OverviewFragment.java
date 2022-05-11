@@ -7,8 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,91 +34,87 @@ import com.google.android.material.navigation.NavigationView;
 
 
 public class OverviewFragment extends Fragment implements LocationObjectAdapter.OnListItemClickListener {
-    RecyclerView mTestList;
-    NavigationView navigationView;
-    LocationObjectAdapter mListAdapter;
-    OverviewViewModel viewModel;
-    View view;
+  RecyclerView mTestList;
+  NavigationView navigationView;
+  LocationObjectAdapter mListAdapter;
+  OverviewViewModel viewModel;
+  View view;
+
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    view = inflater.inflate(R.layout.choose_lay, container, false);
+
+    viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
+
+    mTestList = view.findViewById(R.id.locationsRV);
+    mTestList.hasFixedSize();
+    mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
+    mListAdapter = new LocationObjectAdapter(this);
+    viewModel.init();
+    viewModel.getLocations().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
+
+    mTestList.setAdapter(mListAdapter);
+
+    return view;
+  }
+
+  @Override
+  public void onListItemClick(LocationModel clickedItemIndex) {
+    NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
+    MainActivity main = (MainActivity) getActivity();
+    navigationView = main.findViewById(R.id.nav_view);
+    viewModel.setSnap(clickedItemIndex);
+    NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1), navController);
+
+    Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
+  }
+
+  @Override
+  public void onRateClick(LocationModel clickedItemIndex) {
+
+    if (clickedItemIndex != null) {
+      LayoutInflater inflater = (LayoutInflater)
+          getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+      View popupView = inflater.inflate(R.layout.review_window, null);
+      TextView text = popupView.findViewById(R.id.locationNameRate);
+
+      Button cancelButton = popupView.findViewById(R.id.reviewCancelButton);
+      Button okButton = popupView.findViewById(R.id.reviewOkButton);
+      RatingBar ratingBar = popupView.findViewById(R.id.rating);
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.choose_lay, container, false);
+      text.setText(clickedItemIndex.getName());
+      boolean focusable = true;
+      final PopupWindow popupWindow = new PopupWindow(popupView, view.getWidth(),
+          view.getHeight(),
+          focusable);
+      popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+      popupWindow.setOutsideTouchable(false);
+      popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-        viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
+      cancelButton.setOnClickListener(view -> {
+        popupWindow.dismiss();
+        System.out.println("CANCEL BUTTON PRESSED");
+      });
+      okButton.setOnClickListener(view -> {
+        popupWindow.dismiss();
+        System.out.println("OK BUTTON PRESSED. Rating is: " + ratingBar.getRating());
 
-        mTestList = view.findViewById(R.id.rv);
-        mTestList.hasFixedSize();
-        mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
-        mListAdapter = new LocationObjectAdapter(this);
-        viewModel.populateLive();
-        viewModel.init().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
-
-        mTestList.setAdapter(mListAdapter);
+        viewModel.setReview(clickedItemIndex, ratingBar.getRating());
 
 
-        return view;
+        //TODO
+
+      });
+
     }
+  }
 
-    @Override
-    public void onListItemClick(LocationModel clickedItemIndex) {
-        NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
-        MainActivity main = (MainActivity) getActivity();
-        navigationView = main.findViewById(R.id.nav_view);
-        viewModel.setSnap(clickedItemIndex);
-        NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1), navController
-        );
-        //  Navigation.findNavController(view).navigate(R.id.MapFrag);
-        Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
-    }
+  @Override
+  public void onFavClick(LocationModel clickedItemIndex) {
+    viewModel.addFav(clickedItemIndex);
+  }
 
-    @Override
-    public void onRateClick(LocationModel clickedItemIndex) {
-
-        if(clickedItemIndex != null) {
-            LayoutInflater inflater = (LayoutInflater)
-                    getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-            View popupView = inflater.inflate(R.layout.review_window,null);
-            TextView text = popupView.findViewById(R.id.locationNameRate);
-
-            Button cancelButton = popupView.findViewById(R.id.reviewCancelButton);
-            Button okButton = popupView.findViewById(R.id.reviewOkButton);
-            RatingBar ratingBar = popupView.findViewById(R.id.rating);
-
-
-            text.setText(clickedItemIndex.getName());
-            boolean focusable = true;
-            final PopupWindow popupWindow = new PopupWindow(popupView, view.getWidth(),
-                    view.getHeight(),
-                    focusable);
-            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            popupWindow.setOutsideTouchable(false);
-            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-            cancelButton.setOnClickListener(view -> {
-                popupWindow.dismiss();
-                System.out.println("CANCEL BUTTON PRESSED");
-            });
-            okButton.setOnClickListener(view -> {
-                popupWindow.dismiss();
-                System.out.println("OK BUTTON PRESSED. Rating is: " + ratingBar.getRating());
-
-                viewModel.setReview(clickedItemIndex, ratingBar.getRating());
-
-
-
-                //TODO
-
-            });
-
-        }
-    }
-
-    @Override
-    public void onFavClick(LocationModel clickedItemIndex) {
-        viewModel.addFav(clickedItemIndex);
-    }
-
-    float convertDpToPx(float dp, Context context){
-        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-    }
+  float convertDpToPx(float dp, Context context) {
+    return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+  }
 }
