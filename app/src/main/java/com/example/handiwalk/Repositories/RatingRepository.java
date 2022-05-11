@@ -66,7 +66,7 @@ public class RatingRepository {
                 DocumentSnapshot document = getDocumentTask.getResult();
                 ArrayList<Float> reviews = (ArrayList<Float>) document.getData().get("Reviews");
 
-                System.out.println(reviews.get(1) +"!!!!!!!");
+                System.out.println(reviews.get(reviews.size()-1) +"!!!!!!!");
 
             });
 
