@@ -12,6 +12,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.handiwalk.Models.LocationModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,7 +55,7 @@ public class FavouriteRepository {
                     if (document.exists()) {
                         Log.d(TAG, "Name: " + document.getData());
                         List<LocationModel> list = new ArrayList();
-                        System.out.println("NOme " + (String) document.getData().get("Description"));
+                        System.out.println("Description " + document.getData().get("Description"));
                         LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"), (long) document.getData().get("Id"),(long) document.getData().get("AverageRating"));
 
                         list.add(locationObject);
@@ -67,6 +69,24 @@ public class FavouriteRepository {
             }
         });
     }
+
+    public void addFavouriteLocation(LocationModel locationModel){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser loggedInUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DocumentReference favouriteReference = db.collection("favourites").document(loggedInUser.getUid());
+
+
+
+    }
+
+    public void removeFavouriteLocation(LocationModel locationModel){
+
+    }
+
+
+
+
 
 //    public void addFavouriteLocation(int userId,int locationId)
 //    {
