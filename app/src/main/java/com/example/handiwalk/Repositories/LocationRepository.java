@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class LocationRepository {
 
@@ -49,6 +50,14 @@ public class LocationRepository {
 
   public LiveData<List<LocationModel>> getLocationLiveData() {
     return locationLiveData;
+  }
+
+  public void setSnap(LocationModel clickedItemIndex) {
+    snapLiveData.setValue(clickedItemIndex);
+  }
+
+  public MutableLiveData<LocationModel> getSnapLiveData() {
+    return snapLiveData;
   }
 
   public void getLocations() {
@@ -97,7 +106,7 @@ public class LocationRepository {
               (String) document.getData().get("AverageRating"));
 
           temp.add(locationObject);
-        //  Log.d(TAG, document.getId() + " => " + document.getData());
+          Log.d(TAG, document.getId() + " => " + document.getData());
         }
         locationLiveData.setValue(temp);
       } else {
@@ -108,90 +117,46 @@ public class LocationRepository {
 
   @RequiresApi(api = Build.VERSION_CODES.N)
   public void setRating(LocationModel locationModel, float rating) {
-    System.out.println("Test 2");
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FirebaseAuth.getInstance().getCurrentUser().getUid();
+    String userUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
     DocumentReference reference = db.collection("locations").document(locationModel.getId() + "");
-    Map<String, Object> docData = new HashMap<>();
-    docData.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(rating));
 
     reference.get().addOnCompleteListener(task -> {
       if (task.isSuccessful()) {
         DocumentSnapshot document = task.getResult();
         ArrayList<Map<String, Object>> maps = (ArrayList<Map<String, Object>>) document.getData().get("Reviews");
-        ArrayList<String> reviews = new ArrayList<>();
-        boolean addNew = true;
-        for (Map map : maps) {
-          if (map.containsKey(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-            addNew = false;
-            map.replace(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(rating));
-            map.values().forEach(tab -> reviews.add((String) tab));
-          } else {
-            map.values().forEach(tab -> reviews.add((String) tab));
-          }
-        }
-        if (addNew) {
-          System.out.println("Add new");
-          maps.add(docData);
-          reviews.add(String.valueOf(rating));
-        }
-        String average = calculateAverage(reviews);
-        reference.update("Reviews", maps).addOnSuccessListener(new OnSuccessListener<Void>() {
-          @Override
-          public void onSuccess(Void aVoid) {
-            Log.d(TAG, "DocumentSnapshot successfully updated!");
-            reference.update("AverageRating", average).addOnSuccessListener(new OnSuccessListener<Void>() {
-              @Override
-              public void onSuccess(Void aVoid) {
-                Log.d(TAG, "DocumentSnapshot successfully updated!");
-                getLocationsCoordinates();
-              }
-            })
-                .addOnFailureListener(new OnFailureListener() {
-                  @Override
-                  public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Error updating document", e);
-                  }
-                });
-          }
-        }).addOnFailureListener(new OnFailureListener() {
-          @Override
-          public void onFailure(@NonNull Exception e) {
-            Log.w(TAG, "Error updating document", e);
-          }
-        });
+        String average = prepareArrayOfMaps(rating, userUid, Objects.requireNonNull(maps));
+        setAverageRatingAndReviews(reference, maps, average);
         Log.d(TAG, document.getId() + " => " + document.getData());
       } else {
         Log.d(TAG, "Error getting documents: ", task.getException());
       }
     });
+  }
 
 
-//    reference.update("Reviews", FieldValue.arrayUnion(docData)).addOnCompleteListener(arrayUnionTask -> {
-//      reference.get().addOnCompleteListener(getDocumentTask -> {
-//        DocumentSnapshot document = getDocumentTask.getResult();
-//        ArrayList<Map<String, Object>> maps = (ArrayList<Map<String, Object>>) document.getData().get("Reviews");
-//        ArrayList<String> reviews = new ArrayList<>();
-//        for (Map map : maps) {
-//          map.values().forEach(tab -> reviews.add((String) tab));
-//        }
-//        String average = calculateAverage(reviews);
-//        System.out.println("Average : " + average);
-//        reference.update("AverageRating", average).addOnSuccessListener(new OnSuccessListener<Void>() {
-//          @Override
-//          public void onSuccess(Void aVoid) {
-//            Log.d(TAG, "DocumentSnapshot successfully updated!");
-//            getLocationsCoordinates();
-//          }
-//        })
-//            .addOnFailureListener(new OnFailureListener() {
-//              @Override
-//              public void onFailure(@NonNull Exception e) {
-//                Log.w(TAG, "Error updating document", e);
-//              }
-//            });
-//      });
-//    });
+  @RequiresApi(api = Build.VERSION_CODES.N)
+  @NonNull
+  private String prepareArrayOfMaps(float rating, String userUid, ArrayList<Map<String, Object>> maps) {
+    ArrayList<String> reviews = new ArrayList<>();
+
+    boolean addNew = true;
+    for (Map<String, Object> map : maps) {
+      if (map.containsKey(userUid)) {
+        addNew = false;
+        map.replace(userUid, String.valueOf(rating));
+        map.values().forEach(tab -> reviews.add((String) tab));
+      } else {
+        map.values().forEach(tab -> reviews.add((String) tab));
+      }
+    }
+    if (addNew) {
+      Map<String, Object> docData = new HashMap<>();
+      docData.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(rating));
+      maps.add(docData);
+      reviews.add(String.valueOf(rating));
+    }
+    return calculateAverage(reviews);
   }
 
 
@@ -199,7 +164,6 @@ public class LocationRepository {
     if (marks == null || marks.isEmpty()) {
       return "0";
     }
-    System.out.println("Size " + marks.size());
     double sum = 0;
     for (String mark : marks) {
       double rate = Double.parseDouble(mark);
@@ -211,11 +175,19 @@ public class LocationRepository {
 
   }
 
-  public void setSnap(LocationModel clickedItemIndex) {
-    snapLiveData.setValue(clickedItemIndex);
+
+  private void setAverageRatingAndReviews(DocumentReference reference, ArrayList<Map<String, Object>> maps, String average) {
+    reference.update("Reviews", maps).addOnSuccessListener(aVoid -> {
+      Log.d(TAG, "Reviews successfully updated!");
+      setAverageRating(reference, average);
+    }).addOnFailureListener(e -> Log.w(TAG, "Error updating Reviews", e));
   }
 
-  public MutableLiveData<LocationModel> getSnapLiveData() {
-    return snapLiveData;
+  private void setAverageRating(DocumentReference reference, String average) {
+    reference.update("AverageRating", average).addOnSuccessListener(aVoid -> {
+          Log.d(TAG, "AverageRating successfully updated!");
+          getLocationsCoordinates();
+        }
+    ).addOnFailureListener(e -> Log.w(TAG, "Error updating AverageRating", e));
   }
 }
