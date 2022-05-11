@@ -35,7 +35,7 @@ public class OverviewViewModel extends AndroidViewModel {
     }
 
     public void setReview(LocationModel reviewedLocation, float ratingValue){
-        ratingRepository.setRating(reviewedLocation, ratingValue);
+        ratingRepository.setRating(reviewedLocation, ratingValue*10);
     }
 
 

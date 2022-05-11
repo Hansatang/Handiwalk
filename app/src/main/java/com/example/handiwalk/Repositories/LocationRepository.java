@@ -83,11 +83,29 @@ public class LocationRepository {
       if (task.isSuccessful()) {
         for (QueryDocumentSnapshot document : task.getResult()) {
           System.out.println(document.getData().get("Coordinates")+"");
-          LocationModel locationObject = new LocationModel((String) document.getData().get("Name"),
-              (GeoPoint) document.getData().get("Coordinates"),
-              (String) document.getData().get("Description"),
-              (long) document.getData().get("Id"),
-              (Long) document.getData().get("AverageRating"));
+          LocationModel locationObject;
+          if(document.getData().get("AverageRating").equals(0)){
+            locationObject = new LocationModel((String) document.getData().get("Name"),
+                    (GeoPoint) document.getData().get("Coordinates"),
+                    (String) document.getData().get("Description"),
+                    ((long) document.getData().get("Id")),
+                    0.000);
+          } else {
+            try {
+              locationObject = new LocationModel((String) document.getData().get("Name"),
+                      (GeoPoint) document.getData().get("Coordinates"),
+                      (String) document.getData().get("Description"),
+                      ((long) document.getData().get("Id")),
+                      (double) document.getData().get("AverageRating"));
+            } catch (ClassCastException e){
+              locationObject = new LocationModel((String) document.getData().get("Name"),
+                      (GeoPoint) document.getData().get("Coordinates"),
+                      (String) document.getData().get("Description"),
+                      ((long) document.getData().get("Id")),
+                      ((Long) document.getData().get("AverageRating")).doubleValue());
+            }
+          }
+
           temp.add(locationObject);
           Log.d(TAG, document.getId() + " => " + document.getData());
         }

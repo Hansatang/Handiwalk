@@ -9,9 +9,9 @@ public class LocationModel {
     private GeoPoint coordinates;
     private String description;
     private long id;
-    private Long averageRating;
+    private double averageRating;
 
-    public LocationModel(String name, GeoPoint coordinates, String description, long id, Long averageRating) {
+    public LocationModel(String name, GeoPoint coordinates, String description, long id, double averageRating) {
         this.name = name;
         this.coordinates = coordinates;
         this.description = description;
@@ -51,11 +51,11 @@ public class LocationModel {
         this.id = id;
     }
 
-    public Long getAverageRating() {
+    public double getAverageRating() {
         return averageRating;
     }
 
-    public void setAverageRating(Long averageRating) {
+    public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
     }
 }

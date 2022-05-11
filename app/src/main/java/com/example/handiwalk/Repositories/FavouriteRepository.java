@@ -61,7 +61,7 @@ public class FavouriteRepository {
                     if (document.exists()) {
                         Log.d(TAG, "Name: " + document.getData());
                         List<LocationModel> list = new ArrayList();
-                        System.out.println("NOme " + (String) document.getData().get("Desciption"));
+                        System.out.println("NOme " + (String) document.getData().get("Description"));
                         LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"), (long) document.getData().get("Id"),(long) document.getData().get("AverageRating"));
 
                         list.add(locationObject);

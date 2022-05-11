@@ -7,18 +7,18 @@
         <item
             android:id="@+id/HomeFrag"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/MapFrag"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="Map"/>
+            android:title="@string/map"/>
         <item
             android:id="@+id/ChooseFrag"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="Overview"/>
+            android:title="@string/overview"/>
         <item
             android:id="@+id/FavouriteFragment"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="Favourite"/>
+            android:title="@string/favourite"/>
     </group>
 </menu>
