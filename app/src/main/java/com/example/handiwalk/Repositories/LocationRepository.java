@@ -1,4 +1,4 @@
-package com.example.handiwalk;
+package com.example.handiwalk.Repositories;
 
 import static android.content.ContentValues.TAG;
 
@@ -9,17 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.handiwalk.Models.LocationModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +24,8 @@ import java.util.List;
 public class LocationRepository {
 
     private static LocationRepository instance;
-    private final MutableLiveData<List<LocationObject>> locationLiveData;
-    private final MutableLiveData<LocationObject> snapLiveData;
+    private final MutableLiveData<List<LocationModel>> locationLiveData;
+    private final MutableLiveData<LocationModel> snapLiveData;
 
     private LocationRepository(Application application) {
         locationLiveData = new MutableLiveData<>();
@@ -44,7 +41,7 @@ public class LocationRepository {
     }
 
 
-    public LiveData<List<LocationObject>> getLocationLiveData() {
+    public LiveData<List<LocationModel>> getLocationLiveData() {
         return locationLiveData;
     }
 
@@ -62,9 +59,9 @@ public class LocationRepository {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d(TAG, "Name: " + document.getData());
-                        List<LocationObject> list = new ArrayList();
+                        List<LocationModel> list = new ArrayList();
                         System.out.println("NOme " + (String) document.getData().get("Desciption"));
-                        LocationObject locationObject = new LocationObject((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
+                        LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
 
                         list.add(locationObject);
                         locationLiveData.setValue(list);
@@ -81,11 +78,11 @@ public class LocationRepository {
 
     public void getLocationsCoordinates() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        List<LocationObject> temp = new ArrayList<>();
+        List<LocationModel> temp = new ArrayList<>();
         db.collection("locations").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    LocationObject locationObject = new LocationObject((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
+                    LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
                     temp.add(locationObject);
                     Log.d(TAG, document.getId() + " => " + document.getData());
                 }
@@ -97,11 +94,11 @@ public class LocationRepository {
         });
     }
 
-    public void setSnap(LocationObject clickedItemIndex) {
+    public void setSnap(LocationModel clickedItemIndex) {
         snapLiveData.setValue(clickedItemIndex);
     }
 
-    public MutableLiveData<LocationObject> getSnapLiveData() {
+    public MutableLiveData<LocationModel> getSnapLiveData() {
         return snapLiveData;
     }
 }

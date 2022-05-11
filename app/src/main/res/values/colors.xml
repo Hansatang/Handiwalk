@@ -11,6 +11,7 @@
     <color name="green">#00FF00</color>
     <color name="blue">#0000FF</color>
     <color name="yellow">#FFFF00</color>
+    <color name="transparentBlack">#99000000</color>
 
     <color name="grey">#c2c2c2</color>
 

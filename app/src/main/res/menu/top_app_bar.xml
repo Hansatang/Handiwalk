@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="Item"
+        android:title="Log Out"
         android:id="@+id/LogOutButton"
         app:showAsAction="always" />
 

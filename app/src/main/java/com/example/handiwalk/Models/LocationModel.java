@@ -1,15 +1,15 @@
-package com.example.handiwalk;
+package com.example.handiwalk.Models;
 
 
 
 import com.google.firebase.firestore.GeoPoint;
 
-public class LocationObject {
+public class LocationModel {
     private String name;
     private GeoPoint coordinates;
     private String description;
 
-    public LocationObject(String name, GeoPoint coordinates, String description) {
+    public LocationModel(String name, GeoPoint coordinates, String description) {
         this.name = name;
         this.coordinates = coordinates;
         this.description = description;

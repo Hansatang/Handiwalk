@@ -1,18 +1,20 @@
-package com.example.handiwalk;
+package com.example.handiwalk.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.handiwalk.Models.LocationModel;
+import com.example.handiwalk.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
   private Context context;
 
-  public MyInfoWindowAdapter(Context ctx) {
+  public InfoWindowAdapter(Context ctx) {
     context = ctx;
   }
 
@@ -25,7 +27,7 @@ public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
   public View getInfoContents(Marker marker) {
     View view = ((Activity) context).getLayoutInflater().inflate(R.layout.map_custom_infowindow, null);
 
-    LocationObject infoWindowData = (LocationObject) marker.getTag();
+    LocationModel infoWindowData = (LocationModel) marker.getTag();
     TextView food_tv = view.findViewById(R.id.name);
     TextView transport_tv = view.findViewById(R.id.description);
     food_tv.setText(infoWindowData.getName());
