@@ -115,6 +115,11 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
         }
     }
 
+    @Override
+    public void onFavClick(LocationModel clickedItemIndex) {
+        viewModel.addFav(clickedItemIndex);
+    }
+
     float convertDpToPx(float dp, Context context){
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }

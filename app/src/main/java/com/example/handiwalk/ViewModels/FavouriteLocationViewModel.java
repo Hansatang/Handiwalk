@@ -23,6 +23,10 @@ public class FavouriteLocationViewModel extends AndroidViewModel {
         return favouriteRepository.getLocationLiveData();
     }
 
+    public void addFavourite(LocationModel locationModel){
+        
+    }
+
 
 
 }

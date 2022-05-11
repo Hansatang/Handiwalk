@@ -12,7 +12,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.handiwalk.Models.LocationModel;
-import com.example.handiwalk.Models.ReviewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +29,7 @@ import com.google.firebase.firestore.GeoPoint;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FavouriteRepository {
     private static FavouriteRepository instance;
@@ -53,9 +53,27 @@ public class FavouriteRepository {
         return locationLiveData;
     }
 
-    public void getFavourites(int userId) {
+    public void addFavourite(LocationModel newFavouriteLocation){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("favourites").document(String.valueOf(userId));
+        FirebaseAuth.getInstance().getCurrentUser();
+
+        DocumentReference reference = db.collection("favourites").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        reference.update("favs", FieldValue.arrayUnion((long) newFavouriteLocation.getId())).addOnCompleteListener(arrayUnionTask -> {
+            reference.get().addOnCompleteListener(getDocumentTask -> {
+                System.out.println("Added " + newFavouriteLocation.getName() + " to favourites");
+            });
+
+        });
+
+    }
+
+    public List<LocationModel> getFavourites(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("favourites").document(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+
+        List<LocationModel> list = new ArrayList();
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -63,10 +81,8 @@ public class FavouriteRepository {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d(TAG, "Name: " + document.getData());
-                        List<LocationModel> list = new ArrayList();
                         System.out.println("NOme " + (String) document.getData().get("Description"));
                         LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"), (long) document.getData().get("Id"),(String) document.getData().get("AverageRating"));
-
                         list.add(locationObject);
                         locationLiveData.setValue(list);
                     } else {
@@ -77,12 +93,12 @@ public class FavouriteRepository {
                 }
             }
         });
+        return list;
     }
 
-    public void addFavouriteLocation(LocationModel locationModel, int locationId)
+    /*
+    public void addFavouriteLocation(Context context, int userId, int locationId)
     {
-
-        /*
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() == null)
@@ -152,8 +168,8 @@ public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 }
 });
 
-             */
-    }
+
+    }*/
 
 
 

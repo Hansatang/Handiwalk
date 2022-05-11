@@ -36,8 +36,8 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
 
   @NonNull
   public LocationObjectAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     View view;
+    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     view = inflater.inflate(R.layout.list_layout, parent, false);
     return new LocationObjectAdapter.ViewHolder(view);
   }
@@ -46,17 +46,17 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
     viewHolder.locationName.setText(objects.get(position).getName());
     double rate = Double.parseDouble(objects.get(position).getAverageRating());
     if (rate == 0) {
-      viewHolder.ratingScore.setText("No one rated yet.");
+      viewHolder.ratingScore.setText(R.string.NoRating);
     } else if (rate <= 1.0) {
-      viewHolder.ratingScore.setText("Rating: " + rate + " Poor");
+      viewHolder.ratingScore.setText(String.format("Rating: %s Poor", rate));
     } else if (rate <= 2.0) {
-      viewHolder.ratingScore.setText("Rating: " + rate + " Fair");
+      viewHolder.ratingScore.setText(String.format("Rating: %s Fair", rate));
     } else if (rate <= 3.0) {
-      viewHolder.ratingScore.setText("Rating: " + rate + " Good");
+      viewHolder.ratingScore.setText(String.format("Rating: %s Good", rate));
     } else if (rate <= 4.0) {
-      viewHolder.ratingScore.setText("Rating: " + rate + " Very Good");
+      viewHolder.ratingScore.setText(String.format("Rating: %s Very Good", rate));
     } else if (rate <= 5.0) {
-      viewHolder.ratingScore.setText("Rating: " + rate + " Excellent");
+      viewHolder.ratingScore.setText(String.format("Rating: %s Excellent", rate));
     }
     viewHolder.description.setText(objects.get(position).getDescription());
   }
@@ -64,10 +64,10 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
 
   public interface OnListItemClickListener {
     void onListItemClick(LocationModel clickedItemIndex);
-
     void onRateClick(LocationModel clickedItemIndex);
-  }
 
+    void onFavClick(LocationModel clickedItemIndex);
+  }
 
   public int getItemCount() {
     return objects.size();
@@ -79,6 +79,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
     TextView description;
     Button button;
     Button rateButton;
+    Button favouriteButton;
 
     ViewHolder(View itemView) {
       super(itemView);
@@ -88,6 +89,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
 
       button = itemView.findViewById(R.id.showOnMap);
       rateButton = itemView.findViewById(R.id.rateButton);
+      favouriteButton = itemView.findViewById(R.id.favButton);
       button.setOnClickListener(this);
       rateButton.setOnClickListener(this);
     }
@@ -99,10 +101,14 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
       System.out.println(button.getId());
       if (view.getId() == rateButton.getId()) {
         clickListener.onRateClick(objects.get(getBindingAdapterPosition()));
-      } else {
+      } else if(view.getId() == favouriteButton.getId()){
+        System.out.println(" FAV BUTTON ");
+        clickListener.onFavClick(objects.get(getBindingAdapterPosition()));
+      }
+
+      else {
         clickListener.onListItemClick(objects.get(getBindingAdapterPosition()));
       }
     }
-
   }
 }

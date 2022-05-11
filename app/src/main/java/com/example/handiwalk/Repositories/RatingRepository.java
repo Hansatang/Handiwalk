@@ -55,6 +55,7 @@ public class RatingRepository {
   }
 
 
+
   public void setRating(LocationModel locationModel, float rating) {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     DocumentReference reference = db.collection("locations").document(locationModel.getId() + "");
