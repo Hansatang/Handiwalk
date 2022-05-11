@@ -27,7 +27,7 @@ public class OverviewViewModel extends AndroidViewModel {
     favouriteRepository = FavouriteRepository.getInstance(app);
   }
 
-  public LiveData<List<LocationModel>> getLocations() {
+  public LiveData<List<LocationModel>> init() {
     return locationRepository.getLocationLiveData();
   }
 
@@ -39,16 +39,17 @@ public class OverviewViewModel extends AndroidViewModel {
     return locationRepository.getSnapLiveData();
   }
 
-
+  @RequiresApi(api = Build.VERSION_CODES.N)
   public void setReview(LocationModel reviewedLocation, float ratingValue) {
-    locationRepository.setRating(reviewedLocation, String.valueOf(ratingValue));
+    System.out.println("Test 1");
+    locationRepository.setRating(reviewedLocation, ratingValue);
   }
 
-  public void addFav(LocationModel locationModel) {
+  public void addFav(LocationModel locationModel){
     favouriteRepository.addFavourite(locationModel);
   }
 
-  public void init() {
+  public void populateLive() {
     locationRepository.getLocationsCoordinates();
   }
 }

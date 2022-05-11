@@ -20,11 +20,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,69 +34,118 @@ import java.util.List;
 import java.util.Map;
 
 public class FavouriteRepository {
-  private static FavouriteRepository instance;
-  private final MutableLiveData<List<LocationModel>> locationLiveData;
-  private final MutableLiveData<LocationModel> snapLiveData;
+    private static FavouriteRepository instance;
+    private final MutableLiveData<List<LocationModel>> locationLiveData;
+    private final MutableLiveData<LocationModel> snapLiveData;
 
-  private FavouriteRepository(Application application) {
-    locationLiveData = new MutableLiveData<>();
-    snapLiveData = new MutableLiveData<>();
-    getLocationsCoordinates();
-  }
+    private FavouriteRepository(Application application) {
+        locationLiveData = new MutableLiveData<>();
+        snapLiveData = new MutableLiveData<>();
+        getLocationsCoordinates();
+    }
 
-  public static synchronized FavouriteRepository getInstance(Application application) {
-    if (instance == null)
-      instance = new FavouriteRepository(application);
-    return instance;
-  }
+    public static synchronized FavouriteRepository getInstance(Application application) {
+        if (instance == null)
+            instance = new FavouriteRepository(application);
+        return instance;
+    }
 
 
-  public LiveData<List<LocationModel>> getLocationLiveData() {
-    return locationLiveData;
-  }
+    public LiveData<List<LocationModel>> getLocationLiveData() {
+        return locationLiveData;
+    }
 
-  public void addFavourite(LocationModel newFavouriteLocation) {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FirebaseAuth.getInstance().getCurrentUser();
+    public void addFavourite(LocationModel newFavouriteLocation){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth.getInstance().getCurrentUser();
 
-    DocumentReference reference = db.collection("favourites").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        CollectionReference favourites = db.collection("favourites");
 
-    reference.update("favs", FieldValue.arrayUnion((long) newFavouriteLocation.getId())).addOnCompleteListener(arrayUnionTask -> {
-      reference.get().addOnCompleteListener(getDocumentTask -> {
-        System.out.println("Added " + newFavouriteLocation.getName() + " to favourites");
-      });
+        DocumentReference docRef = favourites.document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        docRef.update("favs", FieldValue.arrayUnion((long) newFavouriteLocation.getId())).addOnCompleteListener(arrayUnionTask -> {
+                            docRef.get().addOnCompleteListener(getDocumentTask -> {
+                                System.out.println("Added " + newFavouriteLocation.getName() + " to favourites");
+                            });
+                        });
+                    } else {
+                        Log.d(TAG, "No such document");
+                        Map<String, Object> data = new HashMap<>();
+                        List<Long> favs = new ArrayList<>();
+                        favs.add(1L);
+                        data.put("favs", favs);
+                        favourites.document(FirebaseAuth.getInstance().getCurrentUser().getUid()).set(data);
+                        Log.d(TAG, "Created document for user.");
 
-    });
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
 
-  }
 
-  public List<LocationModel> getFavourites(String userId) {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    DocumentReference docRef = db.collection("favourites").document(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid()));
 
-    List<LocationModel> list = new ArrayList();
+    public void getFavourites() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("favourites").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-      @Override
-      public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-        if (task.isSuccessful()) {
-          DocumentSnapshot document = task.getResult();
-          if (document.exists()) {
-            Log.d(TAG, "Name: " + document.getData());
-            System.out.println("NOme " + (String) document.getData().get("Description"));
-            LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"), (long) document.getData().get("Id"), (String) document.getData().get("AverageRating"));
-            list.add(locationObject);
-            locationLiveData.setValue(list);
-          } else {
-            Log.d(TAG, "No such document");
-          }
-        } else {
-          Log.d(TAG, "get failed with ", task.getException());
-        }
-      }
-    });
-    return list;
-  }
+
+
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    ArrayList<Long> favs = new ArrayList<>();
+                    favs = (ArrayList<Long>) document.getData().get("favs");
+
+                    getFavouriteLocations(favs);
+
+
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            } else {
+                Log.d(TAG, "get failed with ", task.getException());
+            }
+        });
+
+    }
+
+    private void getFavouriteLocations(ArrayList<Long> favs) {
+
+        List<LocationModel> temp=new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("locations").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    LocationModel locationObject;
+                    if(favs.contains(document.getData().get("Id"))){
+                        locationObject = new LocationModel((String) document.getData().get("Name"),
+                                (GeoPoint) document.getData().get("Coordinates"),
+                                (String) document.getData().get("Description"),
+                                ((long) document.getData().get("Id")),
+                                (String) document.getData().get("AverageRating"));
+                        temp.add(locationObject);
+                        locationLiveData.setValue(temp);
+                    }
+                }
+
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.getException());
+            }
+        });
+
+
+
+    }
 
     /*
     public void addFavouriteLocation(Context context, int userId, int locationId)
@@ -172,13 +223,17 @@ public void onComplete(@NonNull Task<DocumentSnapshot> task) {
     }*/
 
 
-  public void removeFavouriteLocation() {
-
-  }
 
 
-  public void getLocationsCoordinates() {
-    FirebaseFirestore db = FirebaseFirestore.getInstance(
+
+    public void removeFavouriteLocation()
+    {
+
+    }
+
+
+    public void getLocationsCoordinates() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance(
 //        //List<LocationObject> temp = new ArrayList<>();
 //        db.collection("locations").get().addOnCompleteListener(task -> {
 //            if (task.isSuccessful()) {
@@ -193,14 +248,13 @@ public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 //                Log.d(TAG, "Error getting documents: ", task.getException());
 //            }
 //        });
-    );
-  }
+        );}
 
-  public void setSnap(LocationModel clickedItemIndex) {
-    snapLiveData.setValue(clickedItemIndex);
-  }
+    public void setSnap(LocationModel clickedItemIndex) {
+        snapLiveData.setValue(clickedItemIndex);
+    }
 
-  public MutableLiveData<LocationModel> getSnapLiveData() {
-    return snapLiveData;
-  }
+    public MutableLiveData<LocationModel> getSnapLiveData() {
+        return snapLiveData;
+    }
 }

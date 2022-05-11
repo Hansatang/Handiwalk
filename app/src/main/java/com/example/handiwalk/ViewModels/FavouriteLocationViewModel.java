@@ -12,20 +12,21 @@ import java.util.List;
 
 public class FavouriteLocationViewModel extends AndroidViewModel {
 
-  private final FavouriteRepository favouriteRepository;
+    private final FavouriteRepository favouriteRepository;
 
-  public FavouriteLocationViewModel(Application app) {
-    super(app);
-    favouriteRepository = FavouriteRepository.getInstance(app);
-  }
+    public FavouriteLocationViewModel(Application app) {
+        super(app);
+        favouriteRepository = FavouriteRepository.getInstance(app);
+    }
 
-  public LiveData<List<LocationModel>> init() {
-    return favouriteRepository.getLocationLiveData();
-  }
+    public LiveData<List<LocationModel>> init() {
+        return favouriteRepository.getLocationLiveData();
+    }
 
-  public void addFavourite(LocationModel locationModel) {
+    public void getFavourite(){
+        favouriteRepository.getFavourites();
+    }
 
-  }
 
 
 }
