@@ -30,16 +30,16 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.favourite_layout, container, false);
 
-        view = inflater.inflate(R.layout.choose_lay, container, false);
         viewModel = new ViewModelProvider(this).get( FavouriteLocationViewModel.class);
 
-        mTestList = view.findViewById(R.id.rv);
+        mTestList = view.findViewById(R.id.favouriteRv);
         mTestList.hasFixedSize();
         mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mListAdapter = new LocationObjectAdapter(this);
 
+        mListAdapter = new LocationObjectAdapter(this);
         viewModel.init().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
         mTestList.setAdapter(mListAdapter);
 
@@ -52,10 +52,8 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
         NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
         MainActivity main = (MainActivity) getActivity();
         navigationView = main.findViewById(R.id.nav_view);
-        NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1),
-                navController
+        NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1), navController
         );
-
         //  Navigation.findNavController(view).navigate(R.id.MapFrag);
         Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
     }
