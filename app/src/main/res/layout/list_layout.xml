@@ -57,34 +57,41 @@
             </LinearLayout>
 
 
-
             <!-- Buttons -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:weightSum="3"
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/showOnMap"
+                    android:layout_weight="1"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="Show location on map"
-                    android:id="@+id/showOnMap"/>
+                    android:text="Show on map" />
 
                 <com.google.android.material.button.MaterialButton
                     style="?attr/borderlessButtonStyle"
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:text="Fav" />
+
                 <com.google.android.material.button.MaterialButton
-                    style="?attr/borderlessButtonStyle"
                     android:id="@+id/rateButton"
+                    android:layout_weight="1"
+                    style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rate" />
             </LinearLayout>
+
+
 
         </LinearLayout>
 

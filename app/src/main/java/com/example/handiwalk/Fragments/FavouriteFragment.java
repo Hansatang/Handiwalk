@@ -1,4 +1,4 @@
-package com.example.handiwalk;
+package com.example.handiwalk.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,9 +14,14 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.handiwalk.ViewModels.FavouriteLocationViewModel;
+import com.example.handiwalk.Models.LocationModel;
+import com.example.handiwalk.Adapters.LocationObjectAdapter;
+import com.example.handiwalk.MainActivity;
+import com.example.handiwalk.R;
 import com.google.android.material.navigation.NavigationView;
 
-public class FavouriteFragment extends Fragment implements LocationObjectAdapter.OnListItemClickListener{
+public class FavouriteFragment extends Fragment implements LocationObjectAdapter.OnListItemClickListener {
     RecyclerView mTestList;
     NavigationView navigationView;
     LocationObjectAdapter mListAdapter;
@@ -43,7 +48,7 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
     }
 
     @Override
-    public void onListItemClick(LocationObject clickedItemIndex) {
+    public void onListItemClick(LocationModel clickedItemIndex) {
         NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
         MainActivity main = (MainActivity) getActivity();
         navigationView = main.findViewById(R.id.nav_view);
@@ -56,7 +61,7 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
     }
 
     @Override
-    public void onRateClick(LocationObject clickedItemIndex) {
+    public void onRateClick(LocationModel clickedItemIndex) {
 
     }
 }

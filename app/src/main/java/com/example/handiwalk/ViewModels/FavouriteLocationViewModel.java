@@ -1,9 +1,12 @@
-package com.example.handiwalk;
+package com.example.handiwalk.ViewModels;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.handiwalk.Repositories.FavouriteRepository;
+import com.example.handiwalk.Models.LocationModel;
 
 import java.util.List;
 
@@ -16,7 +19,7 @@ public class FavouriteLocationViewModel extends AndroidViewModel {
         favouriteRepository = FavouriteRepository.getInstance(app);
     }
 
-    public LiveData<List<LocationObject>> init() {
+    public LiveData<List<LocationModel>> init() {
         return favouriteRepository.getLocationLiveData();
     }
 

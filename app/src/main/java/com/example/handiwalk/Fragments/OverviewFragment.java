@@ -1,20 +1,14 @@
-package com.example.handiwalk;
+package com.example.handiwalk.Fragments;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,7 +16,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -31,14 +24,19 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.handiwalk.ViewModels.OverviewViewModel;
+import com.example.handiwalk.Models.LocationModel;
+import com.example.handiwalk.Adapters.LocationObjectAdapter;
+import com.example.handiwalk.MainActivity;
+import com.example.handiwalk.R;
 import com.google.android.material.navigation.NavigationView;
 
 
-public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnListItemClickListener {
+public class OverviewFragment extends Fragment implements LocationObjectAdapter.OnListItemClickListener {
     RecyclerView mTestList;
     NavigationView navigationView;
     LocationObjectAdapter mListAdapter;
-    ChooseViewModel viewModel;
+    OverviewViewModel viewModel;
     View view;
 
 
@@ -74,7 +72,7 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
     }
 
     @Override
-    public void onRateClick(LocationObject clickedItemIndex) {
+    public void onRateClick(LocationModel clickedItemIndex) {
 
         if(clickedItemIndex != null) {
             LayoutInflater inflater = (LayoutInflater)
