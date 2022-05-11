@@ -21,6 +21,7 @@ Requirements:
 
 
 Created in collaboration with: 
--@dorinpascal
--@simonsanmueldk
--@Fogh1206
+- [dorinpascal](https://github.com/dorinpascal)
+- [simonsanmueldk](https://github.com/simonsanmueldk)
+- [Fogh1206](https://github.com/Fogh1206)
+
