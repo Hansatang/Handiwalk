@@ -3,12 +3,17 @@ package com.example.handiwalk.Fragments;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +43,7 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.choose_lay, container, false);
 
         viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
@@ -46,9 +52,12 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
         mTestList.hasFixedSize();
         mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
         mListAdapter = new LocationObjectAdapter(this);
         viewModel.init().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
         mTestList.setAdapter(mListAdapter);
+
+
         return view;
     }
 
@@ -72,23 +81,36 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
                     getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
             View popupView = inflater.inflate(R.layout.review_window,null);
             TextView text = popupView.findViewById(R.id.locationNameRate);
+
+            Button cancelButton = popupView.findViewById(R.id.reviewCancelButton);
+            Button okButton = popupView.findViewById(R.id.reviewOkButton);
+
+
             text.setText(clickedItemIndex.getName());
             boolean focusable = true;
-            final PopupWindow popupWindow = new PopupWindow(popupView,
-                    ((int) convertDpToPx(300,popupView.getContext())),
-                    ((int) convertDpToPx(120,popupView.getContext())),
+            final PopupWindow popupWindow = new PopupWindow(popupView, view.getWidth(),
+                    view.getHeight(),
                     focusable);
+            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            popupWindow.setOutsideTouchable(false);
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-            popupView.setOnTouchListener((view, motionEvent) -> {
+            cancelButton.setOnClickListener(view -> {
                 popupWindow.dismiss();
-                return true;
+                System.out.println("CANCEL BUTTON PRESSED");
             });
+            okButton.setOnClickListener(view -> {
+                popupWindow.dismiss();
+                System.out.println("OK BUTTON PRESSED");
+
+                //TODO
+
+            });
+
         }
     }
 
     float convertDpToPx(float dp, Context context){
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
-
 }
