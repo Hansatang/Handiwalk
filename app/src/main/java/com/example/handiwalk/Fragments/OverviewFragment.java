@@ -1,8 +1,9 @@
-package com.example.handiwalk;
+package com.example.handiwalk.Fragments;
+
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 import android.content.Context;
 import android.content.res.Resources;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -12,7 +13,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,10 +26,15 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.handiwalk.ChooseViewModel;
+import com.example.handiwalk.LocationObject;
+import com.example.handiwalk.LocationObjectAdapter;
+import com.example.handiwalk.MainActivity;
+import com.example.handiwalk.R;
 import com.google.android.material.navigation.NavigationView;
 
 
-public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnListItemClickListener {
+public class OverviewFragment extends Fragment implements LocationObjectAdapter.OnListItemClickListener {
     RecyclerView mTestList;
     NavigationView navigationView;
     LocationObjectAdapter mListAdapter;
@@ -37,31 +42,25 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
     View view;
 
 
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.choose_lay, container, false);
+
         viewModel = new ViewModelProvider(this).get(ChooseViewModel.class);
 
         mTestList = view.findViewById(R.id.rv);
         mTestList.hasFixedSize();
         mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
         mListAdapter = new LocationObjectAdapter(this);
         viewModel.init().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
         mTestList.setAdapter(mListAdapter);
+
+
         return view;
     }
 
-
-    @Override
-    public void onFavClick(LocationObject clickedItemIndex)
-    {
-        System.out.println("Fav clicked");
-        Toast toast = Toast.makeText(getContext(),
-                "Favourite spot added to your list",
-                Toast.LENGTH_SHORT);
-        toast.show();
-    }
     @Override
     public void onListItemClick(LocationObject clickedItemIndex) {
         NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
@@ -100,4 +99,7 @@ public class ChooseFrag extends Fragment implements LocationObjectAdapter.OnList
     float convertDpToPx(float dp, Context context){
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
+
+
+
 }

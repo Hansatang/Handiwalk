@@ -1,4 +1,4 @@
-package com.example.handiwalk;
+package com.example.handiwalk.Fragments;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -23,6 +23,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.handiwalk.ChooseViewModel;
+import com.example.handiwalk.LocationObject;
+import com.example.handiwalk.MyInfoWindowAdapter;
+import com.example.handiwalk.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,7 +40,7 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.util.List;
 
-public class MapFrag extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
     SupportMapFragment mapFragment;
     ChooseViewModel viewModel;
     View view;
@@ -44,73 +48,83 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.map_lay, container, false);
+
         viewModel = new ViewModelProvider(this).get(ChooseViewModel.class);
+
 
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         return view;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        MyInfoWindowAdapter customInfoWindow = new MyInfoWindowAdapter(getContext());
+        mMap.setInfoWindowAdapter(customInfoWindow);
+
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(55.859070694447674, 9.849398618961366), 6));
         viewModel.init().observe(getViewLifecycleOwner(), listObjects -> updateMap(listObjects));
         viewModel.snapInit().observe(getViewLifecycleOwner(), object -> SnapToSelected(object));
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(@NonNull Marker marker) {
-                System.out.println("aleooooo");
-                // Retrieve the data from the marker.
-                //LocationObject clickCount = (LocationObject) marker.getTag();
-
-                // Check if a click count was set, then display the click count.
-
-                LocationObject clickCount = (LocationObject) marker.getTag();
-
-                // Check if a click count was set, then display the click count.
-                if (clickCount != null) {
-
-                    LayoutInflater inflater = (LayoutInflater)
-                            getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-                    View popupView = inflater.inflate(R.layout.description_window, null);
-                  TextView text= popupView.findViewById(R.id.description_text);
-                    text.setText(((LocationObject) marker.getTag()).getName());
-                    // create the popup window
-                    int width = 680;
-                    int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                    boolean focusable = true; // lets taps outside the popup also dismiss it
-                    final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-                    // show the popup window
-                    // which view you pass in doesn't matter, it is only used for the window tolken
-                    popupWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.LEFT, 10, 200);
-
-                    // dismiss the popup window when touched
-                    popupView.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            popupWindow.dismiss();
-                            return true;
-                        }
-                    });
-
-
-                }
-                    return false;
-
-            }
-        });
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(@NonNull Marker marker) {
+//                System.out.println("aleooooo");
+//                // Retrieve the data from the marker.
+//                //LocationObject clickCount = (LocationObject) marker.getTag();
+//
+//                // Check if a click count was set, then display the click count.
+//
+//                LocationObject clickCount = (LocationObject) marker.getTag();
+//
+//                // Check if a click count was set, then display the click count.
+//                if (clickCount != null) {
+//
+//                    LayoutInflater inflater = (LayoutInflater)
+//                            getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+//                    View popupView = inflater.inflate(R.layout.description_window, null);
+//                  TextView text= popupView.findViewById(R.id.description_text);
+//                    text.setText(((LocationObject) marker.getTag()).getName());
+//                    // create the popup window
+//                    int width = 680;
+//                    int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//                    boolean focusable = true; // lets taps outside the popup also dismiss it
+//                    final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+//
+//                    // show the popup window
+//                    // which view you pass in doesn't matter, it is only used for the window tolken
+//                    popupWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.LEFT, 10, 200);
+//
+//                    // dismiss the popup window when touched
+//                    popupView.setOnTouchListener(new View.OnTouchListener() {
+//                        @Override
+//                        public boolean onTouch(View v, MotionEvent event) {
+//                            popupWindow.dismiss();
+//                            return true;
+//                        }
+//                    });
+//
+//
+//
+//                }
+//                    return false;
+//
+//            }
+//        });
 
     }
 
     private void updateMap(List<LocationObject> listObjects) {
 
         for (LocationObject temp : listObjects) {
+
             Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(temp.getCoordinates().getLatitude(), temp.getCoordinates().getLongitude())).title(temp.getName()));
+                    .position(new LatLng(temp.getCoordinates().getLatitude(), temp.getCoordinates().getLongitude()))
+                .title(temp.getName())
+            .snippet(temp.getDescription()));
             marker.setTag(temp);
         }
 
@@ -118,6 +132,7 @@ public class MapFrag extends Fragment implements OnMapReadyCallback {
 
 
     private void SnapToSelected(LocationObject object) {
+
         if (object != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(object.getCoordinates().getLatitude(), object.getCoordinates().getLongitude()), 15));
             viewModel.setSnap(null);

@@ -17,7 +17,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
     final private LocationObjectAdapter.OnListItemClickListener clickListener;
     private List<LocationObject> objects;
 
-    LocationObjectAdapter(LocationObjectAdapter.OnListItemClickListener listener) {
+    public LocationObjectAdapter(LocationObjectAdapter.OnListItemClickListener listener) {
         objects = new ArrayList<>();
         clickListener = listener;
     }
