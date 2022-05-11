@@ -1,28 +1,30 @@
-package com.example.handiwalk;
+package com.example.handiwalk.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.handiwalk.Models.LocationModel;
+import com.example.handiwalk.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAdapter.ViewHolder> {
     final private LocationObjectAdapter.OnListItemClickListener clickListener;
-    private List<LocationObject> objects;
+    private List<LocationModel> objects;
 
     public LocationObjectAdapter(LocationObjectAdapter.OnListItemClickListener listener) {
         objects = new ArrayList<>();
         clickListener = listener;
     }
 
-    public void update(List<LocationObject> list) {
+    public void update(List<LocationModel> list) {
         System.out.println("Update call");
         if (list != null) {
             objects = list;
@@ -46,8 +48,8 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
 
 
     public interface OnListItemClickListener {
-        void onListItemClick(LocationObject clickedItemIndex);
-        void onRateClick(LocationObject clickedItemIndex);
+        void onListItemClick(LocationModel clickedItemIndex);
+        void onRateClick(LocationModel clickedItemIndex);
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.handiwalk;
+package com.example.handiwalk.Repositories;
 
 import static android.content.ContentValues.TAG;
 
@@ -9,21 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.handiwalk.Models.LocationModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FavouriteRepository {
     private static FavouriteRepository instance;
-    private final MutableLiveData<List<LocationObject>> locationLiveData;
-    private final MutableLiveData<LocationObject> snapLiveData;
+    private final MutableLiveData<List<LocationModel>> locationLiveData;
+    private final MutableLiveData<LocationModel> snapLiveData;
 
     private FavouriteRepository(Application application) {
         locationLiveData = new MutableLiveData<>();
@@ -38,7 +38,7 @@ public class FavouriteRepository {
     }
 
 
-    public LiveData<List<LocationObject>> getLocationLiveData() {
+    public LiveData<List<LocationModel>> getLocationLiveData() {
         return locationLiveData;
     }
 
@@ -52,9 +52,9 @@ public class FavouriteRepository {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d(TAG, "Name: " + document.getData());
-                        List<LocationObject> list = new ArrayList();
+                        List<LocationModel> list = new ArrayList();
                         System.out.println("NOme " + (String) document.getData().get("Desciption"));
-                        LocationObject locationObject = new LocationObject((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
+                        LocationModel locationObject = new LocationModel((String) document.getData().get("Name"), (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"));
 
                         list.add(locationObject);
                         locationLiveData.setValue(list);
@@ -122,11 +122,11 @@ public class FavouriteRepository {
 //        });
         );}
 
-    public void setSnap(LocationObject clickedItemIndex) {
+    public void setSnap(LocationModel clickedItemIndex) {
         snapLiveData.setValue(clickedItemIndex);
     }
 
-    public MutableLiveData<LocationObject> getSnapLiveData() {
+    public MutableLiveData<LocationModel> getSnapLiveData() {
         return snapLiveData;
     }
 }

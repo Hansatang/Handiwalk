@@ -1,31 +1,16 @@
 package com.example.handiwalk.Fragments;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.handiwalk.ChooseViewModel;
-import com.example.handiwalk.LocationObject;
-import com.example.handiwalk.MyInfoWindowAdapter;
+import com.example.handiwalk.ViewModels.OverviewViewModel;
+import com.example.handiwalk.Models.LocationModel;
+import com.example.handiwalk.Adapters.InfoWindowAdapter;
 import com.example.handiwalk.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,22 +19,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.GeoPoint;
 
 import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     SupportMapFragment mapFragment;
-    ChooseViewModel viewModel;
+    OverviewViewModel viewModel;
     View view;
     private GoogleMap mMap;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.map_lay, container, false);
 
-        viewModel = new ViewModelProvider(this).get(ChooseViewModel.class);
+        viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
 
 
         mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -62,7 +44,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        MyInfoWindowAdapter customInfoWindow = new MyInfoWindowAdapter(getContext());
+        InfoWindowAdapter customInfoWindow = new InfoWindowAdapter(getContext());
         mMap.setInfoWindowAdapter(customInfoWindow);
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -117,9 +99,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    private void updateMap(List<LocationObject> listObjects) {
+    private void updateMap(List<LocationModel> listObjects) {
 
-        for (LocationObject temp : listObjects) {
+        for (LocationModel temp : listObjects) {
 
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(temp.getCoordinates().getLatitude(), temp.getCoordinates().getLongitude()))
@@ -131,7 +113,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    private void SnapToSelected(LocationObject object) {
+    private void SnapToSelected(LocationModel object) {
 
         if (object != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(object.getCoordinates().getLatitude(), object.getCoordinates().getLongitude()), 15));

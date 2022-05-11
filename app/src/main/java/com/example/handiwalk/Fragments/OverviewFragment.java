@@ -3,21 +3,16 @@ package com.example.handiwalk.Fragments;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -26,9 +21,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.handiwalk.ChooseViewModel;
-import com.example.handiwalk.LocationObject;
-import com.example.handiwalk.LocationObjectAdapter;
+import com.example.handiwalk.ViewModels.OverviewViewModel;
+import com.example.handiwalk.Models.LocationModel;
+import com.example.handiwalk.Adapters.LocationObjectAdapter;
 import com.example.handiwalk.MainActivity;
 import com.example.handiwalk.R;
 import com.google.android.material.navigation.NavigationView;
@@ -38,7 +33,7 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
     RecyclerView mTestList;
     NavigationView navigationView;
     LocationObjectAdapter mListAdapter;
-    ChooseViewModel viewModel;
+    OverviewViewModel viewModel;
     View view;
 
 
@@ -46,7 +41,7 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
 
         view = inflater.inflate(R.layout.choose_lay, container, false);
 
-        viewModel = new ViewModelProvider(this).get(ChooseViewModel.class);
+        viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
 
         mTestList = view.findViewById(R.id.rv);
         mTestList.hasFixedSize();
@@ -62,7 +57,7 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
     }
 
     @Override
-    public void onListItemClick(LocationObject clickedItemIndex) {
+    public void onListItemClick(LocationModel clickedItemIndex) {
         NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
         MainActivity main = (MainActivity) getActivity();
         navigationView = main.findViewById(R.id.nav_view);
@@ -74,7 +69,7 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
     }
 
     @Override
-    public void onRateClick(LocationObject clickedItemIndex) {
+    public void onRateClick(LocationModel clickedItemIndex) {
 
         if(clickedItemIndex != null) {
             LayoutInflater inflater = (LayoutInflater)
