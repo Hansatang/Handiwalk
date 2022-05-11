@@ -24,7 +24,7 @@ public class OverviewViewModel extends AndroidViewModel {
 
     locationRepository = LocationRepository.getInstance(app);
     ratingRepository = RatingRepository.getInstance(app);
-    favouriteRepository = FavouriteRepository.getInstance();
+    favouriteRepository = FavouriteRepository.getInstance(app);
   }
 
   public LiveData<List<LocationModel>> init() {
