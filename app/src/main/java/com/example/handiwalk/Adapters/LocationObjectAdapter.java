@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.handiwalk.Models.LocationModel;
@@ -33,6 +34,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
     }
 
 
+    @NonNull
     public  LocationObjectAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
@@ -42,7 +44,6 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
 
     public void onBindViewHolder( LocationObjectAdapter.ViewHolder viewHolder, int position) {
         viewHolder.name.setText(objects.get(position).getName());
-        viewHolder.character.setText("LOLO");
         viewHolder.quote.setText(objects.get(position).getDescription());
     }
 
