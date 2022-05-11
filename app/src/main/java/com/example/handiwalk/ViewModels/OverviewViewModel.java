@@ -49,7 +49,6 @@ public class OverviewViewModel extends AndroidViewModel {
     favouriteRepository.addFavourite(locationModel);
   }
 
-
   public void populateLive() {
     locationRepository.getLocationsCoordinates();
   }

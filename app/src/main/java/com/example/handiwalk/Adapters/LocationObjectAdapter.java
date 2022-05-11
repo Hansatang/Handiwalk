@@ -92,6 +92,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
       favouriteButton = itemView.findViewById(R.id.favButton);
       button.setOnClickListener(this);
       rateButton.setOnClickListener(this);
+      favouriteButton.setOnClickListener(this);
     }
 
     @Override
@@ -101,7 +102,8 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
       System.out.println(button.getId());
       if (view.getId() == rateButton.getId()) {
         clickListener.onRateClick(objects.get(getBindingAdapterPosition()));
-      } else if(view.getId() == favouriteButton.getId()){
+      }
+      if(view.getId() == favouriteButton.getId()){
         System.out.println(" FAV BUTTON ");
         clickListener.onFavClick(objects.get(getBindingAdapterPosition()));
       }
