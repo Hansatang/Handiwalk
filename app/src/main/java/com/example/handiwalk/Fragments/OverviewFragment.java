@@ -51,10 +51,10 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
         mTestList = view.findViewById(R.id.rv);
         mTestList.hasFixedSize();
         mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
         mListAdapter = new LocationObjectAdapter(this);
+        viewModel.populateLive();
         viewModel.init().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
+
         mTestList.setAdapter(mListAdapter);
 
 
