@@ -66,6 +66,8 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
     void onListItemClick(LocationModel clickedItemIndex);
 
     void onRateClick(LocationModel clickedItemIndex);
+
+    void onFavClick(LocationModel clickedItemIndex);
   }
 
 
@@ -79,6 +81,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
     TextView description;
     Button button;
     Button rateButton;
+    Button favouriteButton;
 
     ViewHolder(View itemView) {
       super(itemView);
@@ -88,6 +91,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
 
       button = itemView.findViewById(R.id.showOnMap);
       rateButton = itemView.findViewById(R.id.rateButton);
+      favouriteButton = itemView.findViewById(R.id.favButton);
       button.setOnClickListener(this);
       rateButton.setOnClickListener(this);
     }
@@ -99,7 +103,12 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<LocationObjectAd
       System.out.println(button.getId());
       if (view.getId() == rateButton.getId()) {
         clickListener.onRateClick(objects.get(getBindingAdapterPosition()));
-      } else {
+      } else if(view.getId() == favouriteButton.getId()){
+        System.out.println(" FAV BUTTON ");
+        clickListener.onFavClick(objects.get(getBindingAdapterPosition()));
+      }
+
+      else {
         clickListener.onListItemClick(objects.get(getBindingAdapterPosition()));
       }
     }
