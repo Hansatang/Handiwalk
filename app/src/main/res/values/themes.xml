@@ -3,10 +3,10 @@
     <style name="Theme.Handiwalk" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/grey</item>
-        <item name="colorPrimaryVariant">@color/fui_bgFacebook</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/grey</item>
+        <item name="colorOnPrimary">@color/fui_bgFacebook</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/yellow</item>
         <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/blue</item>
         <!-- Status bar color. -->
