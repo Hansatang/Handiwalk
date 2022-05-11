@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -93,13 +94,13 @@ public class LocationRepository {
 
 
   public void getLocationsCoordinates() {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference reference = FirebaseFirestore.getInstance().collection("locations");
     List<LocationModel> temp = new ArrayList<>();
-    db.collection("locations").get().addOnCompleteListener(task -> {
+    reference.get().addOnCompleteListener(task -> {
       if (task.isSuccessful()) {
         for (QueryDocumentSnapshot document : task.getResult()) {
-          LocationModel locationObject;
-          locationObject = new LocationModel((String) document.getData().get("Name"),
+          LocationModel locationObject = new LocationModel(
+              (String) document.getData().get("Name"),
               (GeoPoint) document.getData().get("Coordinates"),
               (String) document.getData().get("Description"),
               ((long) document.getData().get("Id")),
@@ -115,19 +116,18 @@ public class LocationRepository {
     });
   }
 
-  @RequiresApi(api = Build.VERSION_CODES.N)
-  public void setRating(LocationModel locationModel, float rating) {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+  public void setRating(LocationModel locationModel, String rating) {
+    DocumentReference reference = FirebaseFirestore.getInstance().
+        collection("locations").document(locationModel.getId() + "");
+
     String userUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-    DocumentReference reference = db.collection("locations").document(locationModel.getId() + "");
 
     reference.get().addOnCompleteListener(task -> {
       if (task.isSuccessful()) {
-        DocumentSnapshot document = task.getResult();
-        ArrayList<Map<String, Object>> maps = (ArrayList<Map<String, Object>>) document.getData().get("Reviews");
+        ArrayList<Map<String, Object>> maps = (ArrayList<Map<String, Object>>) task.getResult().getData().get("Reviews");
         String average = prepareArrayOfMaps(rating, userUid, Objects.requireNonNull(maps));
         setAverageRatingAndReviews(reference, maps, average);
-        Log.d(TAG, document.getId() + " => " + document.getData());
+        //  Log.d(TAG, document.getId() + " => " + document.getData());
       } else {
         Log.d(TAG, "Error getting documents: ", task.getException());
       }
@@ -135,12 +135,11 @@ public class LocationRepository {
   }
 
 
-  @RequiresApi(api = Build.VERSION_CODES.N)
   @NonNull
-  private String prepareArrayOfMaps(float rating, String userUid, ArrayList<Map<String, Object>> maps) {
+  private String prepareArrayOfMaps(String rating, String userUid, ArrayList<Map<String, Object>> maps) {
     ArrayList<String> reviews = new ArrayList<>();
-
     boolean addNew = true;
+
     for (Map<String, Object> map : maps) {
       if (map.containsKey(userUid)) {
         addNew = false;
@@ -150,9 +149,10 @@ public class LocationRepository {
         map.values().forEach(tab -> reviews.add((String) tab));
       }
     }
+
     if (addNew) {
       Map<String, Object> docData = new HashMap<>();
-      docData.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), String.valueOf(rating));
+      docData.put(userUid, String.valueOf(rating));
       maps.add(docData);
       reviews.add(String.valueOf(rating));
     }
@@ -161,9 +161,6 @@ public class LocationRepository {
 
 
   private String calculateAverage(ArrayList<String> marks) {
-    if (marks == null || marks.isEmpty()) {
-      return "0";
-    }
     double sum = 0;
     for (String mark : marks) {
       double rate = Double.parseDouble(mark);
@@ -178,9 +175,10 @@ public class LocationRepository {
 
   private void setAverageRatingAndReviews(DocumentReference reference, ArrayList<Map<String, Object>> maps, String average) {
     reference.update("Reviews", maps).addOnSuccessListener(aVoid -> {
-      Log.d(TAG, "Reviews successfully updated!");
-      setAverageRating(reference, average);
-    }).addOnFailureListener(e -> Log.w(TAG, "Error updating Reviews", e));
+          Log.d(TAG, "Reviews successfully updated!");
+          setAverageRating(reference, average);
+        }
+    ).addOnFailureListener(e -> Log.w(TAG, "Error updating Reviews", e));
   }
 
   private void setAverageRating(DocumentReference reference, String average) {
