@@ -20,4 +20,7 @@ Requirements:
 - [x]   As a user I want to rate the places, so I can help other see places worth to see.
 
 
-
+Created in collaboration with: 
+-@dorinpascal
+-@simonsanmueldk
+-@Fogh1206
