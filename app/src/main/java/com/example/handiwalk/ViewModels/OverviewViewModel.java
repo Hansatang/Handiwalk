@@ -1,7 +1,9 @@
 package com.example.handiwalk.ViewModels;
 
 import android.app.Application;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -22,7 +24,7 @@ public class OverviewViewModel extends AndroidViewModel {
 
     locationRepository = LocationRepository.getInstance(app);
     ratingRepository = RatingRepository.getInstance(app);
-    favouriteRepository = FavouriteRepository.getInstance();
+    favouriteRepository = FavouriteRepository.getInstance(app);
   }
 
   public LiveData<List<LocationModel>> init() {
@@ -37,8 +39,9 @@ public class OverviewViewModel extends AndroidViewModel {
     return locationRepository.getSnapLiveData();
   }
 
+
+  @RequiresApi(api = Build.VERSION_CODES.N)
   public void setReview(LocationModel reviewedLocation, float ratingValue) {
-    System.out.println("Test 1");
     locationRepository.setRating(reviewedLocation, ratingValue);
   }
 

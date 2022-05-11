@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.example.handiwalk.Models.LocationModel;
 import com.example.handiwalk.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,7 +21,7 @@ public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
   }
 
   @Override
-  public View getInfoWindow(Marker marker) {
+  public View getInfoWindow(@NonNull Marker marker) {
     return null;
   }
 
