@@ -12,31 +12,35 @@ import com.example.handiwalk.Repositories.RatingRepository;
 import java.util.List;
 
 public class OverviewViewModel extends AndroidViewModel {
-    private final LocationRepository locationRepository;
-    private final RatingRepository ratingRepository;
+  private final LocationRepository locationRepository;
+  private final RatingRepository ratingRepository;
 
-    public OverviewViewModel(Application app) {
-        super(app);
+  public OverviewViewModel(Application app) {
+    super(app);
 
-        locationRepository = LocationRepository.getInstance(app);
-        ratingRepository = RatingRepository.getInstance(app);
-    }
+    locationRepository = LocationRepository.getInstance(app);
+    ratingRepository = RatingRepository.getInstance(app);
+  }
 
-    public LiveData<List<LocationModel>> init() {
-        return locationRepository.getLocationLiveData();
-    }
+  public LiveData<List<LocationModel>> init() {
+    return locationRepository.getLocationLiveData();
+  }
 
-    public void setSnap(LocationModel clickedItemIndex) {
-        locationRepository.setSnap(clickedItemIndex);
-    }
+  public void setSnap(LocationModel clickedItemIndex) {
+    locationRepository.setSnap(clickedItemIndex);
+  }
 
-    public LiveData<LocationModel> snapInit() {
-        return locationRepository.getSnapLiveData();
-    }
+  public LiveData<LocationModel> snapInit() {
+    return locationRepository.getSnapLiveData();
+  }
 
-    public void setReview(LocationModel reviewedLocation, float ratingValue){
-        ratingRepository.setRating(reviewedLocation, ratingValue*10);
-    }
+  public void setReview(LocationModel reviewedLocation, float ratingValue) {
+    System.out.println("Test 1");
+    locationRepository.setRating(reviewedLocation, ratingValue);
+  }
 
 
+  public void populateLive() {
+    locationRepository.getLocationsCoordinates();
+  }
 }

@@ -6,28 +6,28 @@
         <entry key="..\:/Android Studio/Handiwalk/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Android Studio/Handiwalk/app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="..\:/Android Studio/Handiwalk/app/src/main/res/layout/map_lay.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/drawable/choose_rect.xml" value="0.322" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/activity_login.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/app_bar_main.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/choose_favourite_lay.xml" value="0.18541666666666667" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/choose_lay.xml" value="0.2708333333333333" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/content_main.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/favourite_layout.xml" value="0.18541666666666667" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/home_lay.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/list_favorite_layout.xml" value="0.18541666666666667" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/list_layout.xml" value="0.2708333333333333" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/map_custom_infowindow.xml" value="0.18541666666666667" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/map_lay.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/nav_header_main.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/review_window.xml" value="0.14722222222222223" />
+        <entry key="..\:/Android Studio/Handiwalk/app/src/main/res/menu/activity_main_drawer.xml" value="0.19727891156462585" />
+        <entry key="..\:/Users/esben/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/review_window.xml" value="0.5" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2775" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2775" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/activity_register.xml" value="0.12552083333333333" />
-        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/app_bar_main.xml" value="0.2" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/app_bar_main.xml" value="0.5" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/choose_lay.xml" value="0.2644927536231884" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/content_main.xml" value="0.22" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/description_window.xml" value="0.13272543059777103" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/home_lay.xml" value="0.33" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/list_favorite_layout.xml" value="0.12552083333333333" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/list_layout.xml" value="0.25" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/login.xml" value="0.2644927536231884" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/map_custom_infowindow.xml" value="0.254981884057971" />
         <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/map_lay.xml" value="0.2644927536231884" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/nav_header_main.xml" value="0.11614583333333334" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/layout/review_window.xml" value="0.22192028985507245" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/menu/activity_main_drawer.xml" value="0.26871794871794874" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/menu/top_app_bar.xml" value="0.26871794871794874" />
+        <entry key="..\:/Users/krzys/AndroidStudioProjects/Handiwalk/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2285" />
       </map>
     </option>
   </component>
