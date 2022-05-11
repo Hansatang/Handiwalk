@@ -27,11 +27,13 @@ public class InfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
   public View getInfoContents(Marker marker) {
     View view = ((Activity) context).getLayoutInflater().inflate(R.layout.map_custom_infowindow, null);
 
-    LocationModel infoWindowData = (LocationModel) marker.getTag();
-    TextView food_tv = view.findViewById(R.id.name);
-    TextView transport_tv = view.findViewById(R.id.description);
-    food_tv.setText(infoWindowData.getName());
-    transport_tv.setText(infoWindowData.getDescription());
+    LocationModel infoWindowContent = (LocationModel) marker.getTag();
+    TextView name = view.findViewById(R.id.name);
+    TextView description = view.findViewById(R.id.description);
+    TextView rate = view.findViewById(R.id.ratingInfo);
+    name.setText(infoWindowContent.getName());
+    description.setText(infoWindowContent.getDescription());
+    name.setText(infoWindowContent.getAverageRating() + "");
 
     return view;
   }
