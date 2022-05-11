@@ -16,6 +16,15 @@
         android:textColor="#1976d2" />
 
     <TextView
+        android:id="@+id/ratingInfo"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="DEJ"
+        android:gravity="center"
+        android:textColor="#FFA726" />
+
+    <TextView
         android:id="@+id/description"
         android:layout_width="300dp"
         android:layout_height="100dp"

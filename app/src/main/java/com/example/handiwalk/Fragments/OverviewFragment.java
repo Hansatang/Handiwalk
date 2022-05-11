@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,6 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.choose_lay, container, false);
 
         viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
@@ -84,6 +84,7 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
 
             Button cancelButton = popupView.findViewById(R.id.reviewCancelButton);
             Button okButton = popupView.findViewById(R.id.reviewOkButton);
+            RatingBar ratingBar = popupView.findViewById(R.id.rating);
 
 
             text.setText(clickedItemIndex.getName());
@@ -101,7 +102,11 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
             });
             okButton.setOnClickListener(view -> {
                 popupWindow.dismiss();
-                System.out.println("OK BUTTON PRESSED");
+                System.out.println("OK BUTTON PRESSED. Rating is: " + ratingBar.getRating());
+
+                viewModel.setReview(clickedItemIndex, ratingBar.getRating());
+
+
 
                 //TODO
 
