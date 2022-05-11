@@ -51,7 +51,7 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
     NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
     MainActivity main = (MainActivity) getActivity();
     navigationView = main.findViewById(R.id.nav_view);
-    NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(1), navController);
+    NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(0), navController);
     Toast.makeText(getContext(), "Location: " + clickedItemIndex.getName(), Toast.LENGTH_SHORT).show();
   }
 
