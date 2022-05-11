@@ -25,6 +25,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -60,18 +61,41 @@ public class RatingRepository {
 
         DocumentReference reference = db.collection("locations").document(locationModel.getId()+"");
 
-        reference.update("Reviews", FieldValue.arrayUnion(rating)).addOnCompleteListener(arrayUnionTask -> {
+        /*reference.update("Reviews", FieldValue.arrayUnion(rating)).addOnCompleteListener(arrayUnionTask -> {
             reference.get().addOnCompleteListener(getDocumentTask -> {
 
                 DocumentSnapshot document = getDocumentTask.getResult();
-                ArrayList<Float> reviews = (ArrayList<Float>) document.getData().get("Reviews");
+                ArrayList<Long> reviews = (ArrayList<Long>) document.getData().get("Reviews");
+
+
+
+                double average =  calculateAverage((List) Arrays.asList(reviews.toArray()));
+
+                System.out.println("Average : " + average);
 
                 System.out.println(reviews.get(reviews.size()-1) +"!!!!!!!");
 
+
+
+
             });
 
-        });
+        });*/
     }
+
+    /*
+    private double calculateAverage(List <Long> marks) {
+        if (marks == null || marks.isEmpty()) {
+            return new Long(0);
+        }
+
+        double sum = 0;
+        for (double mark : marks) {
+            sum += mark;
+        }
+        return sum / marks.size();
+
+    }*/
 
     public LiveData<List<ReviewModel>> getReviewLiveData() {
         return reviewLiveData;
