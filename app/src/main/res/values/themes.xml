@@ -3,7 +3,7 @@
     <style name="Theme.Handiwalk" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/grey</item>
-        <item name="colorPrimaryVariant">@color/design_default_color_primary_dark</item>
+        <item name="colorPrimaryVariant">@color/fui_bgFacebook</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorPrimaryDark</item>
