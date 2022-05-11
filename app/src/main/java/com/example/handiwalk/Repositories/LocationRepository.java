@@ -87,7 +87,7 @@ public class LocationRepository {
               (GeoPoint) document.getData().get("Coordinates"),
               (String) document.getData().get("Description"),
               (long) document.getData().get("Id"),
-              (long) document.getData().get("AverageRating"));
+              (Long) document.getData().get("AverageRating"));
           temp.add(locationObject);
           Log.d(TAG, document.getId() + " => " + document.getData());
         }
