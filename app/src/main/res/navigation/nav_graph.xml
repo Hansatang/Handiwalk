@@ -2,11 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/HomeFrag">
+    app:startDestination="@id/ChooseFrag">
     <fragment
         android:id="@+id/HomeFrag"
         android:name="com.example.handiwalk.Fragments.HomeFragment"
-        android:label="Home" />
+        android:label="Tutorial" />
     <fragment
         android:id="@+id/MapFrag"
         android:name="com.example.handiwalk.Fragments.MapFragment"
