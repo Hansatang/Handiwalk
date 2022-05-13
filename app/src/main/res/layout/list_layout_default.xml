@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/anime_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -33,7 +32,6 @@
                     android:id="@+id/locationName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Main"
                     android:textAppearance="?attr/textAppearanceHeadline4" />
 
                 <TextView
@@ -41,7 +39,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="User Reviews :"
                     android:textAppearance="?attr/textAppearanceHeadline5"
                     android:textColor="?android:attr/textColorSecondary" />
 
@@ -50,12 +47,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text=""
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="?android:attr/textColorSecondary" />
 
             </LinearLayout>
-
 
 
             <!-- Buttons -->
@@ -63,8 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:weightSum="3"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="3">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/showOnMap"
@@ -72,24 +67,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Show on map" />
+                    android:backgroundTint="?colorSecondary"
+                    android:text="@string/show_on_map" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/favButton"
                     style="?attr/borderlessButtonStyle"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fav"
-                    android:id="@+id/favButton"/>
+                    android:layout_weight="1"
+                    android:backgroundTint="?colorSecondary"
+                    android:text="@string/fav" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/rateButton"
-                    android:layout_weight="1"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rate" />
+                    android:layout_weight="1"
+                    android:backgroundTint="?colorSecondary"
+                    android:text="@string/rate" />
             </LinearLayout>
-
 
 
         </LinearLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/anime_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:cardBackgroundColor="@color/milk"
+        app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -35,7 +34,8 @@
                     android:id="@+id/locationName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Main"
+
+                    android:textColor="?colorOnSecondary"
                     android:textAppearance="?attr/textAppearanceHeadline4" />
 
                 <TextView
@@ -43,15 +43,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="User Reviews :"
+
                     android:textAppearance="?attr/textAppearanceHeadline5"
-                    android:textColor="?android:attr/textColorSecondary" />
+                    android:textColor="?colorOnSecondary" />
 
                 <TextView
                     android:id="@+id/favName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Favourite Location"
+                    android:text="@string/favourite_location"
+                    android:textColor="@color/black"
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
                 <TextView
@@ -59,9 +60,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text=""
+
                     android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary" />
+                    android:textColor="?colorOnSecondary" />
 
             </LinearLayout>
 
@@ -80,7 +81,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Show on map" />
+                    android:backgroundTint="?colorOnSecondary"
+                    android:text="@string/show_on_map" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/favButton"
@@ -88,7 +90,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="UnFav" />
+                    android:backgroundTint="?colorOnSecondary"
+                    android:text="@string/unfav" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/rateButton"
@@ -96,7 +99,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Rate" />
+                    android:backgroundTint="?colorOnSecondary"
+                    android:text="@string/rate" />
             </LinearLayout>
 
         </LinearLayout>

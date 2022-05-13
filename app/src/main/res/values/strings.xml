@@ -11,5 +11,13 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="cancel">Cancel</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="main">Main</string>
+    <string name="user_reviews">User Reviews :</string>
+    <string name="favourite_location">Favourite Location</string>
+    <string name="show_on_map">Show on map</string>
+    <string name="unfav">UnFav</string>
+    <string name="fav">Fav</string>
+    <string name="rate">Rate</string>
 </resources>

@@ -14,8 +14,11 @@
     <color name="transparentBlack">#99000000</color>
     <color name="green_200">#A5D6A7</color>
     <color name="green_700">#388E3C</color>
-
+    <color name="orange_200">#FFAB91</color>
+    <color name="orange_700">#E64A19</color>
+    <color name="blue_grey_200">#B0BEC5</color>
+    <color name="blue_grey_700">#455A64</color>
     <color name="grey">#c2c2c2</color>
-    <color name="milk">#607D8B </color>
+    <color name="grey_400">#BDBDBD</color>
 
 </resources>

@@ -42,13 +42,11 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     view = inflater.inflate(R.layout.favourite_layout, container, false);
+    createViewModels();
+    findViews();
 
-    favouriteLocationViewModel = new ViewModelProvider(this).get(FavouriteLocationViewModel.class);
-    viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
-    mTestList = view.findViewById(R.id.favouriteRv);
     mTestList.hasFixedSize();
     mTestList.setLayoutManager(new LinearLayoutManager(getContext()));
-
     favouriteLocationViewModel.getFavourite();
     mListAdapter = new LocationObjectAdapter(this);
     favouriteLocationViewModel.init().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
@@ -57,11 +55,19 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
     return view;
   }
 
+  private void findViews() {
+    mTestList = view.findViewById(R.id.favouriteRv);
+    navigationView = ((MainActivity) getActivity()).findViewById(R.id.nav_view);
+  }
+
+  private void createViewModels() {
+    favouriteLocationViewModel = new ViewModelProvider(this).get(FavouriteLocationViewModel.class);
+    viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
+  }
+
   @Override
   public void onListItemClick(LocationModel clickedItem) {
     NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentContainerView);
-    MainActivity main = (MainActivity) getActivity();
-    navigationView = main.findViewById(R.id.nav_view);
     viewModel.setSnap(clickedItem);
     NavigationUI.onNavDestinationSelected(navigationView.getMenu().getItem(0), navController);
     Toast.makeText(getContext(), "Location: " + clickedItem.getName(), Toast.LENGTH_SHORT).show();
@@ -71,8 +77,7 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
   public void onRateClick(LocationModel clickedItem) {
 
     if (clickedItem != null) {
-      LayoutInflater inflater = (LayoutInflater)
-          getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+      LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
       View popupView = inflater.inflate(R.layout.review_window, null);
       TextView text = popupView.findViewById(R.id.locationNameRate);
 
@@ -83,9 +88,8 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
 
       text.setText(clickedItem.getName());
       boolean focusable = true;
-      final PopupWindow popupWindow = new PopupWindow(popupView, view.getWidth(),
-          view.getHeight(),
-          focusable);
+      final PopupWindow popupWindow = new PopupWindow(
+          popupView, view.getWidth(), view.getHeight(), focusable);
       popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
       popupWindow.setOutsideTouchable(false);
       popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
@@ -97,11 +101,8 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
       okButton.setOnClickListener(view -> {
         popupWindow.dismiss();
         System.out.println("OK BUTTON PRESSED. Rating is: " + ratingBar.getRating());
-
         viewModel.setReview(clickedItem, ratingBar.getRating());
-
       });
-
     }
   }
 
@@ -109,6 +110,4 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
   public void onFavClick(LocationModel clickedItemIndex) {
     favouriteLocationViewModel.deleteFav(clickedItemIndex);
   }
-
-
 }

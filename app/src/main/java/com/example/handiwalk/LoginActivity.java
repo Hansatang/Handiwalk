@@ -25,90 +25,87 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    EditText UsernameField;
-    EditText PasswordField;
-    Button loginButton;
-    Button toRegisterButton;
+  private FirebaseAuth mAuth;
+  EditText UsernameField;
+  EditText PasswordField;
+  Button loginButton;
+  Button toRegisterButton;
 
-    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK)
-                    goToMain();
-                else
-                    Toast.makeText(this, "SIGN IN CANCELLED", Toast.LENGTH_SHORT).show();
-            });
+  ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+      new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == RESULT_OK)
+          goToMain();
+        else
+          Toast.makeText(this, "SIGN IN CANCELLED", Toast.LENGTH_SHORT).show();
+      });
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        mAuth = FirebaseAuth.getInstance();
-        findViews();
-        setListenersToButtons();
-    }
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_login);
+    mAuth = FirebaseAuth.getInstance();
+    findViews();
+    setListenersToButtons();
+  }
 
-    private void findViews() {
-        UsernameField = findViewById(R.id.UsernameField);
-        PasswordField = findViewById(R.id.PasswordField);
-        loginButton = findViewById(R.id.LoginButton);
-        toRegisterButton = findViewById(R.id.toRegisterView);
-    }
+  private void findViews() {
+    UsernameField = findViewById(R.id.UsernameField);
+    PasswordField = findViewById(R.id.PasswordField);
+    loginButton = findViewById(R.id.LoginButton);
+    toRegisterButton = findViewById(R.id.toRegisterView);
+  }
 
-    private void setListenersToButtons() {
-        loginButton.setOnClickListener(
-                view -> login(UsernameField.getText().toString(), PasswordField.getText().toString())
-        );
-        toRegisterButton.setOnClickListener(
-                view -> goToRegister());
-    }
+  private void setListenersToButtons() {
+    loginButton.setOnClickListener(
+        view -> login(UsernameField.getText().toString(), PasswordField.getText().toString())
+    );
+    toRegisterButton.setOnClickListener(
+        view -> goToRegister());
+  }
 
-    private void login(String email, String password) {
-        if(!(email.isEmpty() && email.equals(""))) {
-            if(!(password.isEmpty() && password.equals(""))) {
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    goToMain();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-            } else {
-                Toast.makeText(LoginActivity.this, "Please insert password.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(LoginActivity.this, "Please insert email.",
+  private void login(String email, String password) {
+    if (!(email.isEmpty() && email.equals(""))) {
+      if (!(password.isEmpty() && password.equals(""))) {
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, task -> {
+              if (task.isSuccessful()) {
+                // Sign in success, update UI with the signed-in user's information
+                FirebaseUser user = mAuth.getCurrentUser();
+                goToMain();
+              } else {
+                // If sign in fails, display a message to the user.
+                Toast.makeText(LoginActivity.this, "Authentication failed.",
                     Toast.LENGTH_SHORT).show();
-        }
+              }
+            });
+      } else {
+        Toast.makeText(LoginActivity.this, "Please insert password.",
+            Toast.LENGTH_SHORT).show();
+      }
+    } else {
+      Toast.makeText(LoginActivity.this, "Please insert email.",
+          Toast.LENGTH_SHORT).show();
     }
+  }
 
-    private void goToMain() {
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
-    }
+  private void goToMain() {
+    startActivity(new Intent(this, MainActivity.class));
+    finish();
+  }
 
-    private void goToRegister() {
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
+  private void goToRegister() {
+    List<AuthUI.IdpConfig> providers = Arrays.asList(
+        new AuthUI.IdpConfig.EmailBuilder().build(),
+        new AuthUI.IdpConfig.GoogleBuilder().build());
 
-        Intent signInIntent = AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .setLogo(R.drawable.ic_launcher_foreground)
-                .build();
+    Intent signInIntent = AuthUI.getInstance()
+        .createSignInIntentBuilder()
+        .setAvailableProviders(providers)
+        .setLogo(R.drawable.ic_launcher_foreground)
+        .build();
 
-        activityResultLauncher.launch(signInIntent);
-    }
+    activityResultLauncher.launch(signInIntent);
+  }
 
 }
 

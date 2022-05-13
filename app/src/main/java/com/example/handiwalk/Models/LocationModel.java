@@ -10,7 +10,7 @@ public class LocationModel {
   private boolean fav;
   private String averageRating;
 
-  public LocationModel(String name, GeoPoint coordinates, String description, long id, boolean fav,String averageRating) {
+  public LocationModel(String name, GeoPoint coordinates, String description, long id, boolean fav, String averageRating) {
     this.name = name;
     this.coordinates = coordinates;
     this.description = description;

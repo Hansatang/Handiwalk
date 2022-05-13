@@ -24,59 +24,50 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
-    SupportMapFragment mapFragment;
-    OverviewViewModel viewModel;
-    View view;
-    private GoogleMap mMap;
+  SupportMapFragment mapFragment;
+  OverviewViewModel viewModel;
+  View view;
+  private GoogleMap mMap;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.map_lay, container, false);
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    view = inflater.inflate(R.layout.map_lay, container, false);
+    createViewModels();
 
-        viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
+    mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+    mapFragment.getMapAsync(this);
 
+    return view;
+  }
 
-        mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+  private void createViewModels() {
+    viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
+  }
 
-        return view;
+  @Override
+  public void onMapReady(@NonNull GoogleMap googleMap) {
+    mMap = googleMap;
+    InfoWindowAdapter customInfoWindow = new InfoWindowAdapter(getContext());
+    mMap.setInfoWindowAdapter(customInfoWindow);
+    mMap.getUiSettings().setZoomControlsEnabled(true);
+    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(55.859070694447674, 9.849398618961366), 6));
+    viewModel.getLocations().observe(getViewLifecycleOwner(), this::updateMap);
+    viewModel.snapInit().observe(getViewLifecycleOwner(), this::SnapToSelected);
+  }
+
+  private void updateMap(List<LocationModel> listObjects) {
+    for (LocationModel temp : listObjects) {
+      Marker marker = mMap.addMarker(new MarkerOptions()
+          .position(new LatLng(temp.getCoordinates().getLatitude(), temp.getCoordinates().getLongitude()))
+          .title(temp.getName()).snippet(temp.getDescription()));
+      marker.setTag(temp);
     }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
-        InfoWindowAdapter customInfoWindow = new InfoWindowAdapter(getContext());
-        mMap.setInfoWindowAdapter(customInfoWindow);
-
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(55.859070694447674, 9.849398618961366), 6));
-        viewModel.getLocations().observe(getViewLifecycleOwner(), this::updateMap);
-        viewModel.snapInit().observe(getViewLifecycleOwner(), this::SnapToSelected);
+  }
 
 
+  private void SnapToSelected(LocationModel object) {
+    if (object != null) {
+      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(object.getCoordinates().getLatitude(), object.getCoordinates().getLongitude()), 15));
+      viewModel.setSnap(null);
     }
-
-    private void updateMap(List<LocationModel> listObjects) {
-
-        for (LocationModel temp : listObjects) {
-
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(temp.getCoordinates().getLatitude(), temp.getCoordinates().getLongitude()))
-                .title(temp.getName())
-            .snippet(temp.getDescription()));
-            marker.setTag(temp);
-        }
-
-    }
-
-
-    private void SnapToSelected(LocationModel object) {
-
-        if (object != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(object.getCoordinates().getLatitude(), object.getCoordinates().getLongitude()), 15));
-            viewModel.setSnap(null);
-        }
-
-    }
-
+  }
 }

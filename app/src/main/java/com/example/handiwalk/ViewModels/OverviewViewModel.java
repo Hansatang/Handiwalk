@@ -41,7 +41,6 @@ public class OverviewViewModel extends AndroidViewModel {
     reviewsRepository.setRating(reviewedLocation, String.valueOf(ratingValue));
   }
 
-
   public LiveData<Boolean> getResult() {
     return reviewsRepository.getResultData();
   }

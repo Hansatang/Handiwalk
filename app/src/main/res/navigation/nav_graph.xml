@@ -2,18 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/ChooseFrag">
+    app:startDestination="@id/OverviewFragment">
     <fragment
-        android:id="@+id/HomeFrag"
+        android:id="@+id/TutorialFragment"
         android:name="com.example.handiwalk.Fragments.HomeFragment"
         android:label="Tutorial" />
     <fragment
-        android:id="@+id/MapFrag"
+        android:id="@+id/MapFragment"
         android:name="com.example.handiwalk.Fragments.MapFragment"
-        android:label="Map"
-        />
+        android:label="Map" />
     <fragment
-        android:id="@+id/ChooseFrag"
+        android:id="@+id/OverviewFragment"
         android:name="com.example.handiwalk.Fragments.OverviewFragment"
         android:label="Overview" />
     <fragment

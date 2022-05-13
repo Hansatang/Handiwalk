@@ -6,16 +6,16 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/MapFrag"
+            android:id="@+id/MapFragment"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="@string/map"/>
+            android:title="@string/map" />
         <item
-            android:id="@+id/ChooseFrag"
+            android:id="@+id/OverviewFragment"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="@string/overview"/>
+            android:title="@string/overview" />
         <item
             android:id="@+id/FavouriteFragment"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="@string/favourite"/>
+            android:title="@string/favourite" />
     </group>
 </menu>

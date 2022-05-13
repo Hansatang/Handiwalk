@@ -3,15 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="@string/log_out"
         android:id="@+id/LogOutButton"
-        app:showAsAction="always" />
-
+        android:title="@string/log_out"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/Tutorial"
-
-        android:contentDescription="YAY"
-        android:title="Tutorial"
+        android:contentDescription="@string/tutorial"
+        android:title="@string/tutorial"
         app:showAsAction="never" />
 </menu>

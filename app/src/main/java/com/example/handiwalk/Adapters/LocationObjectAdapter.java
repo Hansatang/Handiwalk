@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +37,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<RecyclerView.Vie
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view;
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-    RecyclerView.ViewHolder viewHolder = null;
+    RecyclerView.ViewHolder viewHolder;
     if (viewType == 0) {
       view = inflater.inflate(R.layout.list_layout_default, parent, false);
       viewHolder = new ViewHolderDefault(view);
@@ -52,7 +51,6 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<RecyclerView.Vie
   @Override
   public int getItemViewType(int position) {
     final LocationModel dataObj = objects.get(position);
-
     if (!dataObj.isFav()) {
       return 0;
     } else {
@@ -64,42 +62,34 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     if (viewHolder.getItemViewType() == 0) {
       ViewHolderDefault vaultItemHolder = (ViewHolderDefault) viewHolder;
       vaultItemHolder.locationName.setText(objects.get(position).getName());
-      double rate = Double.parseDouble(objects.get(position).getAverageRating());
-      if (rate == 0) {
-        vaultItemHolder.ratingScore.setText(R.string.NoRating);
-      } else if (rate <= 1.0) {
-        vaultItemHolder.ratingScore.setText(String.format("Rating: %s Poor", rate));
-      } else if (rate <= 2.0) {
-        vaultItemHolder.ratingScore.setText(String.format("Rating: %s Fair", rate));
-      } else if (rate <= 3.0) {
-        vaultItemHolder.ratingScore.setText(String.format("Rating: %s Good", rate));
-      } else if (rate <= 4.0) {
-        vaultItemHolder.ratingScore.setText(String.format("Rating: %s Very Good", rate));
-      } else if (rate <= 5.0) {
-        vaultItemHolder.ratingScore.setText(String.format("Rating: %s Excellent", rate));
-      }
+      String evaluation = evaluateRating(objects.get(position).getAverageRating());
+      vaultItemHolder.ratingScore.setText(evaluation);
       vaultItemHolder.description.setText(objects.get(position).getDescription());
-    }
-    else{
+    } else {
       ViewHolderFav vaultItemHolder = (ViewHolderFav) viewHolder;
       vaultItemHolder.locationName.setText(objects.get(position).getName());
-      double rate = Double.parseDouble(objects.get(position).getAverageRating());
-      if (rate == 0) {
-        vaultItemHolder.ratingScore.setText(R.string.NoRating);
-      } else if (rate <= 1.0) {
-        vaultItemHolder.ratingScore.setText(String.format("Rating: %s Poor", rate));
-      } else if (rate <= 2.0) {
-        vaultItemHolder.ratingScore.setText(String.format("Rating: %s Fair", rate));
-      } else if (rate <= 3.0) {
-        vaultItemHolder.ratingScore.setText(String.format("Rating: %s Good", rate));
-      } else if (rate <= 4.0) {
-        vaultItemHolder.ratingScore.setText(String.format("Rating: %s Very Good", rate));
-      } else if (rate <= 5.0) {
-        vaultItemHolder.ratingScore.setText(String.format("Rating: %s Excellent", rate));
-      }
+      String evaluation = evaluateRating(objects.get(position).getAverageRating());
+      vaultItemHolder.ratingScore.setText(evaluation);
       vaultItemHolder.description.setText(objects.get(position).getDescription());
     }
 
+  }
+
+  private String evaluateRating(String averageRating) {
+    double rate = Double.parseDouble(averageRating);
+    if (rate == 0) {
+      return String.valueOf(R.string.NoRating);
+    } else if (rate <= 1.0) {
+      return String.format("Rating: %s Poor", rate);
+    } else if (rate <= 2.0) {
+      return String.format("Rating: %s Fair", rate);
+    } else if (rate <= 3.0) {
+      return String.format("Rating: %s Good", rate);
+    } else if (rate <= 4.0) {
+      return String.format("Rating: %s Very Good", rate);
+    } else {
+      return String.format("Rating: %s Excellent", rate);
+    }
   }
 
 
@@ -183,7 +173,7 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<RecyclerView.Vie
       if (view.getId() == rateButton.getId()) {
         clickListener.onRateClick(objects.get(getBindingAdapterPosition()));
       } else if (view.getId() == favouriteButton.getId()) {
-        System.out.println(" FAV BUTTON ");
+        System.out.println("UNFAV BUTTON ");
         clickListener.onFavClick(objects.get(getBindingAdapterPosition()));
       } else {
         clickListener.onListItemClick(objects.get(getBindingAdapterPosition()));

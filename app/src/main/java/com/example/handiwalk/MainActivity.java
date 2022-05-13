@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,7 +16,6 @@ import android.view.MenuItem;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     mAuth = FirebaseAuth.getInstance();
 
 
-    if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+    if (mAuth.getCurrentUser() == null) {
       startActivity(new Intent(this, LoginActivity.class));
       finish();
     }
@@ -53,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     navigationView = findViewById(R.id.nav_view);
     navController = Navigation.findNavController(this, R.id.fragmentContainerView);
     mAppBarConfiguration = new AppBarConfiguration.Builder(
-        R.id.MapFrag, R.id.ChooseFrag,R.id.FavouriteFragment)
+        R.id.MapFragment, R.id.OverviewFragment, R.id.FavouriteFragment)
         .setOpenableLayout(drawerLayout).build();
   }
 
@@ -71,16 +68,14 @@ public class MainActivity extends AppCompatActivity {
 
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     if (item.getItemId() == findViewById(R.id.LogOutButton).getId()) {
-      System.out.println("Options");
       AuthUI.getInstance().signOut(this).addOnCompleteListener(task -> {
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
       });
     }
     if (item.getItemId() == toolbar.getMenu().findItem(R.id.Tutorial).getItemId()) {
-      navController.navigate(R.id.HomeFrag);
+      navController.navigate(R.id.TutorialFragment);
     }
-
     return super.onOptionsItemSelected(item);
   }
 }
