@@ -114,7 +114,15 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
 
   @Override
   public void onFavClick(LocationModel clickedItemIndex) {
-    viewModel.addFav(clickedItemIndex);
+
+    if (!clickedItemIndex.isFav())
+    {
+      viewModel.addFav(clickedItemIndex);
+    }
+    else
+    {
+      viewModel.deleteFav(clickedItemIndex);
+    }
 
   }
 

@@ -47,4 +47,8 @@ public class OverviewViewModel extends AndroidViewModel {
   public void init() {
     locationRepository.getFavourites();
   }
+
+    public void deleteFav(LocationModel clickedItemIndex) {
+      favouriteRepository.deleteFavourite(clickedItemIndex);
+    }
 }

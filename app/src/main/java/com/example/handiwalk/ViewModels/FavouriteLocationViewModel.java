@@ -34,5 +34,8 @@ public class FavouriteLocationViewModel extends AndroidViewModel {
     public void clearResult() {
          favouriteRepository.clearResultData();
     }
-
+    public void deleteFav(LocationModel clickedItemIndex) {
+        System.out.println("aleo2");
+        favouriteRepository.deleteFavourite(clickedItemIndex);
+    }
 }

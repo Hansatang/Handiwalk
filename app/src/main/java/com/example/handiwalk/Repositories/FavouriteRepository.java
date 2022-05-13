@@ -27,11 +27,13 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class FavouriteRepository {
   private static FavouriteRepository instance;
@@ -221,11 +223,6 @@ public void onComplete(@NonNull Task<DocumentSnapshot> task) {
     }*/
 
 
-  public void removeFavouriteLocation() {
-
-  }
-
-
   public void getLocationsCoordinates() {
     FirebaseFirestore db = FirebaseFirestore.getInstance(
 //        //List<LocationObject> temp = new ArrayList<>();
@@ -253,5 +250,41 @@ public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
   public void clearResultData() {
    resultData.setValue(0);
+  }
+
+  public void deleteFavourite(LocationModel clickedItemIndex) {
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    DocumentReference docRef = db.collection("favourites").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    docRef.get().addOnCompleteListener(task -> {
+      if (task.isSuccessful()) {
+        DocumentSnapshot document = task.getResult();
+        if (document.exists()) {
+          System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa");
+          ArrayList<Long> favs = new ArrayList<>();
+          favs = (ArrayList<Long>) document.getData().get("favs");
+
+          System.out.println(favs.get(0));
+          System.out.println(clickedItemIndex.getId());
+          if (favs.contains((new Long(clickedItemIndex.getId()) )))
+          {
+            System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+            favs.remove(clickedItemIndex.getId());
+          }
+          docRef.update("favs",favs);
+          System.out.println("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+        } else {
+          Log.d(TAG, "No such document");
+        }
+      } else {
+        Log.d(TAG, "get failed with ", task.getException());
+      }
+    });
+
+
+
+
+
+
   }
 }

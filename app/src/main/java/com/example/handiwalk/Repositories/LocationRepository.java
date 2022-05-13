@@ -69,11 +69,12 @@ public class LocationRepository {
       if (task.isSuccessful()) {
         DocumentSnapshot document = task.getResult();
         if (document.exists()) {
+
           ArrayList<Long> favs = (ArrayList<Long>) document.getData().get("favs");
           getFavouriteLocations(favs);
         } else {
           getLocationsCoordinates();
-          Log.d(TAG, "No such document");
+          Log.d(TAG, "No such documen favoruitet");
         }
       } else {
         Log.d(TAG, "get failed with ", task.getException());
@@ -125,6 +126,7 @@ public class LocationRepository {
       }
     });
   }
+
 
 
   @NonNull

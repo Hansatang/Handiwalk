@@ -62,7 +62,8 @@ public class FavouriteFragment extends Fragment implements LocationObjectAdapter
 
   @Override
   public void onFavClick(LocationModel clickedItemIndex) {
-
+    System.out.println("aleo");
+    viewModel.deleteFav(clickedItemIndex);
   }
 
 
