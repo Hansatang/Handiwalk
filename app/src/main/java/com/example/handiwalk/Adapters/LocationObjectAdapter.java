@@ -49,7 +49,6 @@ public class LocationObjectAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     return viewHolder;
   }
 
-  //Todo check this shit, probably add boolean to the locationModel
   @Override
   public int getItemViewType(int position) {
     final LocationModel dataObj = objects.get(position);

@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     navigationView = findViewById(R.id.nav_view);
     navController = Navigation.findNavController(this, R.id.fragmentContainerView);
     mAppBarConfiguration = new AppBarConfiguration.Builder(
-        R.id.MapFrag, R.id.ChooseFrag)
+        R.id.MapFrag, R.id.ChooseFrag,R.id.FavouriteFragment)
         .setOpenableLayout(drawerLayout).build();
   }
 

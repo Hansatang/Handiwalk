@@ -54,7 +54,8 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
     mListAdapter = new LocationObjectAdapter(this);
     viewModel.init();
     viewModel.getLocations().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
-    favouriteLocationViewModel.getResult().observe(getViewLifecycleOwner(), listObjects -> viewModel.init());
+    favouriteLocationViewModel.getResult().observe(getViewLifecycleOwner(), aBoolean -> updateFav(aBoolean));
+    viewModel.getResult().observe(getViewLifecycleOwner(), bBoolean -> updateRev(bBoolean));
     mTestList.setAdapter(mListAdapter);
 
     return view;
@@ -104,9 +105,6 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
 
         viewModel.setReview(clickedItemIndex, ratingBar.getRating());
 
-
-        //TODO
-
       });
 
     }
@@ -115,13 +113,10 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
   @Override
   public void onFavClick(LocationModel clickedItemIndex) {
 
-    if (!clickedItemIndex.isFav())
-    {
-      viewModel.addFav(clickedItemIndex);
-    }
-    else
-    {
-      viewModel.deleteFav(clickedItemIndex);
+    if (!clickedItemIndex.isFav()) {
+      favouriteLocationViewModel.addFav(clickedItemIndex);
+    } else {
+      favouriteLocationViewModel.deleteFav(clickedItemIndex);
     }
 
   }
@@ -130,11 +125,20 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
     return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
   }
 
-  private void update(Integer integer) {
-    if (integer == 1) {
+  private void updateFav(Boolean aBoolean) {
+    if (aBoolean) {
       viewModel.init();
       favouriteLocationViewModel.clearResult();
     }
 
   }
+
+  private void updateRev(Boolean bBoolean) {
+    if (bBoolean) {
+      viewModel.init();
+      viewModel.clearResult();
+    }
+
+  }
+
 }

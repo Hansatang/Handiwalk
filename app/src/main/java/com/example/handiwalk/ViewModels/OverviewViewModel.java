@@ -8,19 +8,20 @@ import androidx.lifecycle.LiveData;
 import com.example.handiwalk.Models.LocationModel;
 import com.example.handiwalk.Repositories.FavouriteRepository;
 import com.example.handiwalk.Repositories.LocationRepository;
+import com.example.handiwalk.Repositories.ReviewsRepository;
 
 import java.util.List;
 
 public class OverviewViewModel extends AndroidViewModel {
   private final LocationRepository locationRepository;
-
+  private final ReviewsRepository reviewsRepository;
   private final FavouriteRepository favouriteRepository;
 
   public OverviewViewModel(Application app) {
     super(app);
 
     locationRepository = LocationRepository.getInstance(app);
-
+    reviewsRepository = ReviewsRepository.getInstance(app);
     favouriteRepository = FavouriteRepository.getInstance(app);
   }
 
@@ -37,18 +38,21 @@ public class OverviewViewModel extends AndroidViewModel {
   }
 
   public void setReview(LocationModel reviewedLocation, float ratingValue) {
-    locationRepository.setRating(reviewedLocation, String.valueOf(ratingValue));
+    reviewsRepository.setRating(reviewedLocation, String.valueOf(ratingValue));
   }
 
-  public void addFav(LocationModel locationModel){
-    favouriteRepository.addFavourite(locationModel);
+
+  public LiveData<Boolean> getResult() {
+    return reviewsRepository.getResultData();
+  }
+
+  public void clearResult() {
+    reviewsRepository.clearResultData();
   }
 
   public void init() {
     locationRepository.getFavourites();
   }
 
-    public void deleteFav(LocationModel clickedItemIndex) {
-      favouriteRepository.deleteFavourite(clickedItemIndex);
-    }
+
 }

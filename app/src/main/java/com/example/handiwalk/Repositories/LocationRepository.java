@@ -74,7 +74,7 @@ public class LocationRepository {
           getFavouriteLocations(favs);
         } else {
           getLocationsCoordinates();
-          Log.d(TAG, "No such documen favoruitet");
+          Log.d(TAG, "No such document");
         }
       } else {
         Log.d(TAG, "get failed with ", task.getException());
@@ -109,77 +109,7 @@ public class LocationRepository {
   }
 
 
-  public void setRating(LocationModel locationModel, String rating) {
-    DocumentReference reference = FirebaseFirestore.getInstance().
-        collection("locations").document(locationModel.getId() + "");
 
-    String userUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-
-    reference.get().addOnCompleteListener(task -> {
-      if (task.isSuccessful()) {
-        ArrayList<Map<String, Object>> maps = (ArrayList<Map<String, Object>>) task.getResult().getData().get("Reviews");
-        String average = prepareArrayOfMaps(rating, userUid, Objects.requireNonNull(maps));
-        setAverageRatingAndReviews(reference, maps, average);
-        //  Log.d(TAG, document.getId() + " => " + document.getData());
-      } else {
-        Log.d(TAG, "Error getting documents: ", task.getException());
-      }
-    });
-  }
-
-
-
-  @NonNull
-  private String prepareArrayOfMaps(String rating, String userUid, ArrayList<Map<String, Object>> maps) {
-    ArrayList<String> reviews = new ArrayList<>();
-    boolean addNew = true;
-
-    for (Map<String, Object> map : maps) {
-      if (map.containsKey(userUid)) {
-        addNew = false;
-        map.replace(userUid, String.valueOf(rating));
-        map.values().forEach(tab -> reviews.add((String) tab));
-      } else {
-        map.values().forEach(tab -> reviews.add((String) tab));
-      }
-    }
-
-    if (addNew) {
-      Map<String, Object> docData = new HashMap<>();
-      docData.put(userUid, String.valueOf(rating));
-      maps.add(docData);
-      reviews.add(String.valueOf(rating));
-    }
-    return calculateAverage(reviews);
-  }
-
-
-  private String calculateAverage(ArrayList<String> marks) {
-    double sum = 0;
-    for (String mark : marks) {
-      double rate = Double.parseDouble(mark);
-      sum += rate;
-    }
-    double result = Math.round(((sum / marks.size()) * 100.0)) / 100.0;
-    return String.valueOf(result);
-  }
-
-
-  private void setAverageRatingAndReviews(DocumentReference reference, ArrayList<Map<String, Object>> maps, String average) {
-    reference.update("Reviews", maps).addOnSuccessListener(aVoid -> {
-          Log.d(TAG, "Reviews successfully updated!");
-          setAverageRating(reference, average);
-        }
-    ).addOnFailureListener(e -> Log.w(TAG, "Error updating Reviews", e));
-  }
-
-  private void setAverageRating(DocumentReference reference, String average) {
-    reference.update("AverageRating", average).addOnSuccessListener(aVoid -> {
-          Log.d(TAG, "AverageRating successfully updated!");
-          getFavourites();
-        }
-    ).addOnFailureListener(e -> Log.w(TAG, "Error updating AverageRating", e));
-  }
 
   public void getLocationsCoordinates() {
     CollectionReference reference = FirebaseFirestore.getInstance().collection("locations");
