@@ -72,6 +72,7 @@ public class LocationRepository {
           ArrayList<Long> favs = (ArrayList<Long>) document.getData().get("favs");
           getFavouriteLocations(favs);
         } else {
+          getLocationsCoordinates();
           Log.d(TAG, "No such document");
         }
       } else {
@@ -105,7 +106,6 @@ public class LocationRepository {
       }
     });
   }
-
 
 
   public void setRating(LocationModel locationModel, String rating) {
