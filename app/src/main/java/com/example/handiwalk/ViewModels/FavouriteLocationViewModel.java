@@ -27,6 +27,12 @@ public class FavouriteLocationViewModel extends AndroidViewModel {
         favouriteRepository.getFavourites();
     }
 
+    public LiveData<Integer> getResult() {
+        return favouriteRepository.getResultData();
+    }
 
+    public void clearResult() {
+         favouriteRepository.clearResultData();
+    }
 
 }

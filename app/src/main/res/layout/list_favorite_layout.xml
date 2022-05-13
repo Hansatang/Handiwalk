@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        app:cardBackgroundColor="@color/milk"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,7 +30,6 @@
                 android:padding="16dp">
 
                 <!-- Title, secondary and supporting text -->
-
 
                 <TextView
                     android:id="@+id/locationName"
@@ -71,8 +71,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:weightSum="3"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="3">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/showOnMap"
@@ -83,18 +83,19 @@
                     android:text="Show on map" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/favButton"
                     style="?attr/borderlessButtonStyle"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fav"
-                    android:id="@+id/favButton"/>
+                    android:layout_weight="1"
+                    android:text="UnFav" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/rateButton"
-                    android:layout_weight="1"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Rate" />
             </LinearLayout>
 

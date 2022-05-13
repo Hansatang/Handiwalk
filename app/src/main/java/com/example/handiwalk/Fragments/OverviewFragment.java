@@ -25,6 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.handiwalk.ViewModels.FavouriteLocationViewModel;
 import com.example.handiwalk.ViewModels.OverviewViewModel;
 import com.example.handiwalk.Models.LocationModel;
 import com.example.handiwalk.Adapters.LocationObjectAdapter;
@@ -38,12 +39,14 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
   NavigationView navigationView;
   LocationObjectAdapter mListAdapter;
   OverviewViewModel viewModel;
+  FavouriteLocationViewModel favouriteLocationViewModel;
   View view;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     view = inflater.inflate(R.layout.choose_lay, container, false);
 
     viewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
+    favouriteLocationViewModel = new ViewModelProvider(this).get(FavouriteLocationViewModel.class);
 
     mTestList = view.findViewById(R.id.locationsRV);
     mTestList.hasFixedSize();
@@ -51,7 +54,7 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
     mListAdapter = new LocationObjectAdapter(this);
     viewModel.init();
     viewModel.getLocations().observe(getViewLifecycleOwner(), listObjects -> mListAdapter.update(listObjects));
-
+    favouriteLocationViewModel.getResult().observe(getViewLifecycleOwner(), listObjects -> viewModel.init());
     mTestList.setAdapter(mListAdapter);
 
     return view;
@@ -112,9 +115,18 @@ public class OverviewFragment extends Fragment implements LocationObjectAdapter.
   @Override
   public void onFavClick(LocationModel clickedItemIndex) {
     viewModel.addFav(clickedItemIndex);
+
   }
 
   float convertDpToPx(float dp, Context context) {
     return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+  }
+
+  private void update(Integer integer) {
+    if (integer == 1) {
+      viewModel.init();
+      favouriteLocationViewModel.clearResult();
+    }
+
   }
 }

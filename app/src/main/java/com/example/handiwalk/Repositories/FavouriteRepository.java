@@ -36,11 +36,12 @@ import java.util.Map;
 public class FavouriteRepository {
   private static FavouriteRepository instance;
   private final MutableLiveData<List<LocationModel>> locationLiveData;
-  private final MutableLiveData<LocationModel> snapLiveData;
+  private final MutableLiveData<Integer> resultData;
 
   private FavouriteRepository(Application application) {
     locationLiveData = new MutableLiveData<>();
-    snapLiveData = new MutableLiveData<>();
+    resultData = new MutableLiveData<>();
+    resultData.setValue(0);
     getLocationsCoordinates();
   }
 
@@ -83,6 +84,7 @@ public class FavouriteRepository {
             Log.d(TAG, "Created document for user.");
 
           }
+          resultData.postValue(1);
         } else {
           Log.d(TAG, "get failed with ", task.getException());
         }
@@ -243,11 +245,13 @@ public void onComplete(@NonNull Task<DocumentSnapshot> task) {
     );
   }
 
-  public void setSnap(LocationModel clickedItemIndex) {
-    snapLiveData.setValue(clickedItemIndex);
+
+
+  public MutableLiveData<Integer> getResultData() {
+    return resultData;
   }
 
-  public MutableLiveData<LocationModel> getSnapLiveData() {
-    return snapLiveData;
+  public void clearResultData() {
+   resultData.setValue(0);
   }
 }

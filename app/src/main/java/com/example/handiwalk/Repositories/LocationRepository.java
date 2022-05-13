@@ -61,19 +61,16 @@ public class LocationRepository {
   }
 
   public void getFavourites() {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    DocumentReference docRef = db.collection("favourites").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+    DocumentReference docRef = FirebaseFirestore.getInstance().collection("favourites").
+        document(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
     docRef.get().addOnCompleteListener(task -> {
       if (task.isSuccessful()) {
         DocumentSnapshot document = task.getResult();
         if (document.exists()) {
-          ArrayList<Long> favs = new ArrayList<>();
-          favs = (ArrayList<Long>) document.getData().get("favs");
-
+          ArrayList<Long> favs = (ArrayList<Long>) document.getData().get("favs");
           getFavouriteLocations(favs);
-
-
         } else {
           Log.d(TAG, "No such document");
         }
@@ -85,9 +82,7 @@ public class LocationRepository {
   }
 
   private void getFavouriteLocations(ArrayList<Long> favs) {
-
     List<LocationModel> temp = new ArrayList<>();
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     db.collection("locations").get().addOnCompleteListener(task -> {
       if (task.isSuccessful()) {
@@ -109,34 +104,9 @@ public class LocationRepository {
         Log.d(TAG, "Error getting documents: ", task.getException());
       }
     });
-
-
   }
 
 
-  public void getLocationsCoordinates() {
-    CollectionReference reference = FirebaseFirestore.getInstance().collection("locations");
-    List<LocationModel> temp = new ArrayList<>();
-    reference.get().addOnCompleteListener(task -> {
-      if (task.isSuccessful()) {
-        for (QueryDocumentSnapshot document : task.getResult()) {
-          LocationModel locationObject = new LocationModel(
-              (String) document.getData().get("Name"),
-              (GeoPoint) document.getData().get("Coordinates"),
-              (String) document.getData().get("Description"),
-              ((long) document.getData().get("Id")),
-              false,
-              (String) document.getData().get("AverageRating"));
-
-          temp.add(locationObject);
-          Log.d(TAG, document.getId() + " => " + document.getData());
-        }
-        locationLiveData.setValue(temp);
-      } else {
-        Log.d(TAG, "Error getting documents: ", task.getException());
-      }
-    });
-  }
 
   public void setRating(LocationModel locationModel, String rating) {
     DocumentReference reference = FirebaseFirestore.getInstance().
@@ -189,9 +159,7 @@ public class LocationRepository {
       sum += rate;
     }
     double result = Math.round(((sum / marks.size()) * 100.0)) / 100.0;
-
     return String.valueOf(result);
-
   }
 
 
@@ -209,5 +177,64 @@ public class LocationRepository {
           getFavourites();
         }
     ).addOnFailureListener(e -> Log.w(TAG, "Error updating AverageRating", e));
+  }
+
+  public void getLocationsCoordinates() {
+    CollectionReference reference = FirebaseFirestore.getInstance().collection("locations");
+    List<LocationModel> temp = new ArrayList<>();
+    reference.get().addOnCompleteListener(task -> {
+      if (task.isSuccessful()) {
+        for (QueryDocumentSnapshot document : task.getResult()) {
+          LocationModel locationObject = new LocationModel(
+              (String) document.getData().get("Name"),
+              (GeoPoint) document.getData().get("Coordinates"),
+              (String) document.getData().get("Description"),
+              ((long) document.getData().get("Id")),
+              false,
+              (String) document.getData().get("AverageRating"));
+
+          temp.add(locationObject);
+          Log.d(TAG, document.getId() + " => " + document.getData());
+        }
+        locationLiveData.setValue(temp);
+      } else {
+        Log.d(TAG, "Error getting documents: ", task.getException());
+      }
+    });
+  }
+
+  public void addFavourite(LocationModel newFavouriteLocation) {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth.getInstance().getCurrentUser();
+
+    CollectionReference favourites = db.collection("favourites");
+
+    DocumentReference docRef = favourites.document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+      @Override
+      public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+        if (task.isSuccessful()) {
+          DocumentSnapshot document = task.getResult();
+          if (document.exists()) {
+            docRef.update("favs", FieldValue.arrayUnion((long) newFavouriteLocation.getId())).addOnCompleteListener(arrayUnionTask -> {
+              docRef.get().addOnCompleteListener(getDocumentTask -> {
+                System.out.println("Added " + newFavouriteLocation.getName() + " to favourites");
+              });
+            });
+          } else {
+            Log.d(TAG, "No such document");
+            Map<String, Object> data = new HashMap<>();
+            List<Long> favs = new ArrayList<>();
+            favs.add(1L);
+            data.put("favs", favs);
+            favourites.document(FirebaseAuth.getInstance().getCurrentUser().getUid()).set(data);
+            Log.d(TAG, "Created document for user.");
+
+          }
+        } else {
+          Log.d(TAG, "get failed with ", task.getException());
+        }
+      }
+    });
   }
 }
