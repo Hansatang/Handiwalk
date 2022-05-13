@@ -29,12 +29,14 @@
                 android:padding="16dp">
 
                 <!-- Title, secondary and supporting text -->
+
+
                 <TextView
                     android:id="@+id/locationName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Main"
-                    android:textAppearance="?attr/textAppearanceHeadline6" />
+                    android:textAppearance="?attr/textAppearanceHeadline4" />
 
                 <TextView
                     android:id="@+id/ratingScore"
@@ -44,6 +46,13 @@
                     android:text="User Reviews :"
                     android:textAppearance="?attr/textAppearanceHeadline5"
                     android:textColor="?android:attr/textColorSecondary" />
+
+                <TextView
+                    android:id="@+id/favName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Favourite Location"
+                    android:textAppearance="?attr/textAppearanceHeadline6" />
 
                 <TextView
                     android:id="@+id/desciption"
@@ -59,9 +68,10 @@
 
             <!-- Buttons -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:weightSum="3"
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
@@ -69,18 +79,19 @@
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="Show location on map" />
+                    android:layout_weight="1"
+                    android:text="Show on map" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/favButton"
                     style="?attr/borderlessButtonStyle"
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Unfav" />
-
+                    android:text="Fav"
+                    android:id="@+id/favButton"/>
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/rateButton"
+                    android:layout_weight="1"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

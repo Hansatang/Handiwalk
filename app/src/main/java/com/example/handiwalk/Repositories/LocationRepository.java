@@ -48,7 +48,6 @@ public class LocationRepository {
     return instance;
   }
 
-
   public LiveData<List<LocationModel>> getLocationLiveData() {
     return locationLiveData;
   }
@@ -61,7 +60,58 @@ public class LocationRepository {
     return snapLiveData;
   }
 
+  public void getFavourites() {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    DocumentReference docRef = db.collection("favourites").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+    docRef.get().addOnCompleteListener(task -> {
+      if (task.isSuccessful()) {
+        DocumentSnapshot document = task.getResult();
+        if (document.exists()) {
+          ArrayList<Long> favs = new ArrayList<>();
+          favs = (ArrayList<Long>) document.getData().get("favs");
+
+          getFavouriteLocations(favs);
+
+
+        } else {
+          Log.d(TAG, "No such document");
+        }
+      } else {
+        Log.d(TAG, "get failed with ", task.getException());
+      }
+    });
+
+  }
+
+  private void getFavouriteLocations(ArrayList<Long> favs) {
+
+    List<LocationModel> temp = new ArrayList<>();
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    db.collection("locations").get().addOnCompleteListener(task -> {
+      if (task.isSuccessful()) {
+        for (QueryDocumentSnapshot document : task.getResult()) {
+          LocationModel locationObject = new LocationModel(
+              (String) document.getData().get("Name"),
+              (GeoPoint) document.getData().get("Coordinates"),
+              (String) document.getData().get("Description"),
+              ((long) document.getData().get("Id")),
+              false,
+              (String) document.getData().get("AverageRating"));
+          if (favs.contains(document.getData().get("Id"))) {
+            locationObject.setFav(true);
+          }
+          temp.add(locationObject);
+        }
+        locationLiveData.setValue(temp);
+      } else {
+        Log.d(TAG, "Error getting documents: ", task.getException());
+      }
+    });
+
+
+  }
 
 
   public void getLocationsCoordinates() {
@@ -156,7 +206,7 @@ public class LocationRepository {
   private void setAverageRating(DocumentReference reference, String average) {
     reference.update("AverageRating", average).addOnSuccessListener(aVoid -> {
           Log.d(TAG, "AverageRating successfully updated!");
-          getLocationsCoordinates();
+          getFavourites();
         }
     ).addOnFailureListener(e -> Log.w(TAG, "Error updating AverageRating", e));
   }

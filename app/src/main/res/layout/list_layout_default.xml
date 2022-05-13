@@ -68,11 +68,10 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/showOnMap"
-                    android:layout_weight="1"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
                     android:text="Show on map" />
 
                 <com.google.android.material.button.MaterialButton

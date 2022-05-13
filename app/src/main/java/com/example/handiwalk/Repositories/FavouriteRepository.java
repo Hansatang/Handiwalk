@@ -132,10 +132,9 @@ public class FavouriteRepository {
                 true,
                 (String) document.getData().get("AverageRating"));
             temp.add(locationObject);
-            locationLiveData.setValue(temp);
           }
         }
-
+        locationLiveData.setValue(temp);
       } else {
         Log.d(TAG, "Error getting documents: ", task.getException());
       }

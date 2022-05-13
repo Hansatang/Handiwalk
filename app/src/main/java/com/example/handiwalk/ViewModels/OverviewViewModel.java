@@ -1,29 +1,26 @@
 package com.example.handiwalk.ViewModels;
 
 import android.app.Application;
-import android.os.Build;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.handiwalk.Models.LocationModel;
 import com.example.handiwalk.Repositories.FavouriteRepository;
 import com.example.handiwalk.Repositories.LocationRepository;
-import com.example.handiwalk.Repositories.RatingRepository;
 
 import java.util.List;
 
 public class OverviewViewModel extends AndroidViewModel {
   private final LocationRepository locationRepository;
-  private final RatingRepository ratingRepository;
+
   private final FavouriteRepository favouriteRepository;
 
   public OverviewViewModel(Application app) {
     super(app);
 
     locationRepository = LocationRepository.getInstance(app);
-    ratingRepository = RatingRepository.getInstance(app);
+
     favouriteRepository = FavouriteRepository.getInstance(app);
   }
 
@@ -48,6 +45,6 @@ public class OverviewViewModel extends AndroidViewModel {
   }
 
   public void init() {
-    locationRepository.getLocationsCoordinates();
+    locationRepository.getFavourites();
   }
 }
