@@ -61,36 +61,7 @@ public class LocationRepository {
     return snapLiveData;
   }
 
-  public void getLocations() {
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-    DocumentReference docRef = db.collection("locations").document("1");
-    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-      @Override
-      public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-        if (task.isSuccessful()) {
-          DocumentSnapshot document = task.getResult();
-          if (document.exists()) {
-            Log.d(TAG, "Name: " + document.getData());
-            List<LocationModel> list = new ArrayList();
-            System.out.println("NOme " + (String) document.getData().get("Desciption"));
-            LocationModel locationObject = new LocationModel((String) document.getData().get("Name"),
-                (GeoPoint) document.getData().get("Coordinates"), (String) document.getData().get("Description"),
-                (long) document.getData().get("Id"),
-                (String) document.getData().get("AverageRating"));
-
-            list.add(locationObject);
-            locationLiveData.setValue(list);
-          } else {
-            Log.d(TAG, "No such document");
-          }
-        } else {
-          Log.d(TAG, "get failed with ", task.getException());
-        }
-      }
-    });
-  }
 
 
   public void getLocationsCoordinates() {
@@ -104,6 +75,7 @@ public class LocationRepository {
               (GeoPoint) document.getData().get("Coordinates"),
               (String) document.getData().get("Description"),
               ((long) document.getData().get("Id")),
+              false,
               (String) document.getData().get("AverageRating"));
 
           temp.add(locationObject);

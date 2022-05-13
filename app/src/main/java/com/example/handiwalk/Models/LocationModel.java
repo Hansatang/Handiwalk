@@ -7,13 +7,15 @@ public class LocationModel {
   private GeoPoint coordinates;
   private String description;
   private long id;
+  private boolean fav;
   private String averageRating;
 
-  public LocationModel(String name, GeoPoint coordinates, String description, long id, String averageRating) {
+  public LocationModel(String name, GeoPoint coordinates, String description, long id, boolean fav,String averageRating) {
     this.name = name;
     this.coordinates = coordinates;
     this.description = description;
     this.id = id;
+    this.fav = fav;
     this.averageRating = averageRating;
   }
 
@@ -55,5 +57,13 @@ public class LocationModel {
 
   public void setAverageRating(String averageRating) {
     this.averageRating = averageRating;
+  }
+
+  public boolean isFav() {
+    return fav;
+  }
+
+  public void setFav(boolean fav) {
+    this.fav = fav;
   }
 }
