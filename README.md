@@ -19,6 +19,8 @@ Requirements:
 - [x]   As a user I want to see the rating the places, so I can see which one are popular.
 - [x]   As a user I want to rate the places, so I can help other see places worth to see.
 
+Youtube demonstration 
+https://www.youtube.com/watch?v=A7jZOxSUB1c
 
 Created in collaboration with: 
 - [Hansatang (me)](https://github.com/Hansatang)
