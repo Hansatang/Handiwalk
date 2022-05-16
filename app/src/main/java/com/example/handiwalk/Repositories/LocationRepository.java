@@ -3,33 +3,22 @@ package com.example.handiwalk.Repositories;
 import static android.content.ContentValues.TAG;
 
 import android.app.Application;
-import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.handiwalk.Models.LocationModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class LocationRepository {
 
@@ -62,24 +51,30 @@ public class LocationRepository {
 
   public void getFavourites() {
 
-    DocumentReference docRef = FirebaseFirestore.getInstance().collection("favourites").
-        document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    try {
+      DocumentReference docRef = FirebaseFirestore.getInstance().collection("favourites").
+              document(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-    docRef.get().addOnCompleteListener(task -> {
-      if (task.isSuccessful()) {
-        DocumentSnapshot document = task.getResult();
-        if (document.exists()) {
-          ArrayList<Long> favs = (ArrayList<Long>) document.getData().get("favs");
-          getFavouriteLocations(favs);
+      docRef.get().addOnCompleteListener(task -> {
+        if (task.isSuccessful()) {
+          DocumentSnapshot document = task.getResult();
+          if (document.exists()) {
+            ArrayList<Long> favs = (ArrayList<Long>) document.getData().get("favs");
+            getFavouriteLocations(favs);
+          } else {
+            getLocationsCoordinates();
+            Log.d(TAG, "No such document");
+          }
         } else {
-          getLocationsCoordinates();
-          Log.d(TAG, "No such document");
+          Log.d(TAG, "get failed with ", task.getException());
         }
-      } else {
-        Log.d(TAG, "get failed with ", task.getException());
-      }
-    });
-  }
+      });
+    }catch (NullPointerException e)
+    {
+      System.out.println("Not logged in");
+    }
+    }
+
 
   private void getFavouriteLocations(ArrayList<Long> favs) {
     List<LocationModel> temp = new ArrayList<>();
